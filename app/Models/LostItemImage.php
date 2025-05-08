@@ -11,8 +11,8 @@ class LostItemImage extends Model
     use HasFactory;
 
     protected $fillable = [
-        // "name",
-        // "user_id",
+        "image_path",
+        "lost_item_post_id"
     ];
 
     public function LostItemPost(){

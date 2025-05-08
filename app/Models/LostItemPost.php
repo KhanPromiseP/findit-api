@@ -18,6 +18,7 @@ class LostItemPost extends Model
         "category_id",
         "status",
         "contact",
+        "color",
     ];
 
     public function user()

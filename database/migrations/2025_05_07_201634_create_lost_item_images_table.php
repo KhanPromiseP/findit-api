@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('lost_item_images', function (Blueprint $table) {
             $table->id();
-            $table->string('image_path');
+            $table->text('image_path');
             $table->foreignIdFor(LostItemPost::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

@@ -18,8 +18,9 @@ class LostItemImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'image_path' => '/local/1',
+            'image_path' => fake()->randomElement(['/file/image1','/file/image2','/file/image3']),
             'lost_item_post_id' => LostItemPost::factory(),
         ];
     }
 }
+// fake()->randomElement(['turkey','Cameroon','Canada']),

@@ -17,5 +17,5 @@ Route::controller(AuthController::class)->group(function () {
 });
 Route::controller(PostController::class)->group(function () {
     Route::post('post', 'post');
-
+    Route::post('find', 'find');
 });

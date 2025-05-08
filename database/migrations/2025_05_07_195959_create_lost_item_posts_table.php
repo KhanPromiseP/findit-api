@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('location');
+            $table->string('color');
             $table->text('description');
             $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete();
             $table->string('status');
