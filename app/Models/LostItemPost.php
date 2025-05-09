@@ -19,6 +19,16 @@ class LostItemPost extends Model
         "status",
         "contact",
         "color",
+
+        'is_approved',
+        'approved_at',
+        'approved_by'
+    ];
+
+
+      protected $casts = [
+        'is_approved' => 'boolean',
+        'approved_at' => 'datetime',
     ];
 
     public function user()
@@ -35,4 +45,22 @@ class LostItemPost extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+
+    //approval added
+      public function approver()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('is_approved', true);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('is_approved', false);
+    }
 }
+

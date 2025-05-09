@@ -22,8 +22,19 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'profile_path'
+        'profile_path',
+        'is_admin'
     ];
+
+
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
+
+    public function lostItemPosts()
+    {
+        return $this->hasMany(LostItemPost::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,4 +62,5 @@ class User extends Authenticatable
     public function LostItemPosts(){
         return $this->hasMany(LostItemPost::class);
     }
+
 }

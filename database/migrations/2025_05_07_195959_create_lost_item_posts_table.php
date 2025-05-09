@@ -23,6 +23,12 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete();
             $table->string('status');
             $table->string('contact');
+
+            //add approval functionalities
+            $table->boolean('is_approved')->default(false);
+            $table->timestamp('approved_at')->nullable();
+            $table->foreignId('approved_by')->nullable()->constrained('users');
+
             $table->timestamps();
         });
     }
