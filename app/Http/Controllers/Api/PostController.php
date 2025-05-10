@@ -53,16 +53,21 @@ class PostController extends Controller
             'user_id' => ['required'],
             'location' => ['required'],
             'description' => ['required'],
+            'color' => ['required'],
             'category_id' => ['required'],
             'status' => ['required'],
             'contact' => ['required'],
             'image_path' => ['required']
         ]);
 
+<<<<<<< HEAD
         $post = LostItemPost::create(array_merge(
             Arr::except($attributes, ['image_path']),
             ['is_approved' => false]
         ));
+=======
+        if ($post = LostItemPost::create(Arr::except($attributes, ['image_path']))) {
+>>>>>>> bd9ac265f12cf2edfe3c80c203eec8ffef327092
 
         if ($post) {
             $images = LostItemImage::create([
@@ -82,6 +87,7 @@ class PostController extends Controller
         return redirect()->back()->withErrors(['error' => 'Failed to create post.']);
     }
 
+<<<<<<< HEAD
 
 
   
@@ -147,11 +153,14 @@ class PostController extends Controller
     /**
      * Search and compare lost items.
      */
+=======
+  
+>>>>>>> bd9ac265f12cf2edfe3c80c203eec8ffef327092
     public function find(Request $request)
     {
         $attributes = $request->validate([
             "color" => "string|nullable",
-            "category_id" => "string|nullable",
+            "category_id" => "integer|nullable",
             "name" => "string|nullable",
             "location" => "string|nullable"
         ]);
@@ -180,6 +189,7 @@ class PostController extends Controller
         return view('posts.search_results', compact('lostItems'));
     }
 
+<<<<<<< HEAD
     /**
      * Display pending posts for admin.
      */
@@ -210,3 +220,82 @@ class PostController extends Controller
         return redirect()->route('admin.pending_posts')->with('success', 'Post rejected successfully.');
     }
 }
+=======
+    
+
+     //non resful : using POST
+
+    // public function destroy(Request $request)
+    // {
+    //     $post_id = $request->validate(['post_id' => ["required"]]);
+    //     if ($post = LostItemPost::find($post_id['post_id'])) { //use findOrFail on frontend not api as it auto sets an abort page
+    //         $post->delete();
+    //         return response()->json([
+    //             'status' => 'successful deletion',
+    //         ], 201);           
+    //     }
+    //     return response()->json([
+    //         'message' => 'Invalid credentials/post absent'
+    //     ]);
+        
+        
+    // }
+
+    public function destroy(LostItemPost $post)
+    {
+        if ($post) { 
+            $post->delete();
+            return response()->json([
+                'status' => 'successful deletion',
+            ], 201);           
+        }
+        return response()->json([
+            'message' => 'Invalid credentials/post absent'
+        ]);
+        
+        
+    }
+    public function update(Request $request, LostItemPost $post)
+{
+    $attributes = $request->validate([
+        'name' => ['required', 'string'],
+        'location' => ['required', 'string'],
+        'color' => ['required'],
+        'description' => ['required', 'string'],
+        'category_id' => ['required', 'integer'],
+        'status' => ['required', 'string'],
+        'contact' => ['required', 'string'],
+        'image_path' => ['required', 'string']
+    ]);
+
+
+    if ($post) {
+        $update_post = $post->update(Arr::except($attributes, ['image_path']));
+
+        $image = LostItemImage::where('lost_item_post_id', $post->id)->first();
+
+        if ($image) {
+            $update_images = $image->update(['image_path' => $attributes['image_path']]);
+        } else {
+            $update_images = LostItemImage::create([
+                'image_path' => $attributes['image_path'],
+                'lost_item_post_id' => $post->id
+            ]);
+        }
+
+        if ($update_post) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Post successfully edited',
+                'post' => $post,
+                'images' => $update_images ?? $image
+            ]);
+        }
+    }
+
+    return response()->json([
+        'message' => 'Invalid credentials'
+    ], 401);
+}
+}
+>>>>>>> bd9ac265f12cf2edfe3c80c203eec8ffef327092
