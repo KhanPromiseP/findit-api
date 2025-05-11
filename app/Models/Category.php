@@ -10,7 +10,20 @@ class Category extends Model
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
 
-    public function LostItemPosts(){
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<string>
+     */
+    protected $fillable = [
+        'name'
+    ];
+
+    /**
+     * Get the lost item posts associated with the category.
+     */
+    public function lostItemPosts()
+    {
         return $this->hasMany(LostItemPost::class);
     }
 }

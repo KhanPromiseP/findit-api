@@ -1,15 +1,21 @@
 <?php
 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\LostItemImage;
 use App\Models\LostItemPost;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\PostApprovalNotification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+
+use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
@@ -23,8 +29,9 @@ class PostController extends Controller
         if (!$request->user() || !$request->user()->is_admin) {
             $posts->approved();
         }
-
-        $posts = $posts->with('images')->get();
+        $posts = LostItemPost::with(['user', 'LostItemImages'])->paginate(10);
+        return view('posts.index', compact('posts'));
+        // $posts = $posts->with('images')->get();
 
         return view('posts.index', compact('posts'));
     }
@@ -48,47 +55,75 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = $request->validate([
-            'name' => ['required'],
-            'user_id' => ['required'],
-            'location' => ['required'],
-            'description' => ['required'],
-            'color' => ['required'],
-            'category_id' => ['required'],
-            'status' => ['required'],
-            'contact' => ['required'],
-            'image_path' => ['required']
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'contact' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'image_path' => 'required|array|max:3',
+            'image_path.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-<<<<<<< HEAD
-        $post = LostItemPost::create(array_merge(
-            Arr::except($attributes, ['image_path']),
-            ['is_approved' => false]
-        ));
-=======
-        if ($post = LostItemPost::create(Arr::except($attributes, ['image_path']))) {
->>>>>>> bd9ac265f12cf2edfe3c80c203eec8ffef327092
+        $post = LostItemPost::create([
+            'user_id' => Auth::id(),
+            'category_id' => $validated['category_id'],
+            'name' => $validated['name'],
+            'color' => $validated['color'],
+            'location' => $validated['location'],
+            'contact' => $validated['contact'],
+            'description' => $validated['description'],
+            'status' => 'pending',
+            'is_approved' => false
+        ]);
 
-        if ($post) {
-            $images = LostItemImage::create([
-                'image_path' => $attributes['image_path'],
-                'lost_item_post_id' => $post->id
-            ]);
-
-            // Notify admin
-            $admin = User::where('is_admin', true)->first();
-            if ($admin) {
-                $admin->notify(new PostApprovalNotification($post));
+        if ($request->hasFile('image_path')) {
+            foreach ($request->file('image_path') as $image) {
+                $path = $image->store('lost_item_images', 'public');
+                LostItemImage::create([
+                    'lost_item_post_id' => $post->id,
+                    'image_path' => $path
+                ]);
             }
-
-            return redirect()->route('posts.index')->with('success', 'Post created successfully and pending approval.');
         }
 
-        return redirect()->back()->withErrors(['error' => 'Failed to create post.']);
+        return response()->json([
+            'success' => true,
+            'redirect' => route('posts.index'),
+            'message' => 'Item reported successfully! It will be visible after approval.'
+        ]);
+    
+
+        
+        // $post = LostItemPost::create(array_merge(
+        //     Arr::except($attributes, ['image_path']),
+        //     ['is_approved' => false]
+        // ));
+
+    //     if ($post = LostItemPost::create(Arr::except($attributes, ['image_path']))) {
+
+
+    //     if ($post) {
+    //         $images = LostItemImage::create([
+    //             'image_path' => $attributes['image_path'],
+    //             'lost_item_post_id' => $post->id
+    //         ]);
+
+    //         // Notify admin
+    //         $admin = User::where('is_admin', true)->first();
+    //         if ($admin) {
+    //             $admin->notify(new PostApprovalNotification($post));
+    //         }
+
+    //         return redirect()->route('posts.index')->with('success', 'Post created successfully and pending approval.');
+    //     }
+
+    //     return redirect()->back()->withErrors(['error' => 'Failed to create post.']);
+    // }
+
+
     }
-
-<<<<<<< HEAD
-
 
   
 
@@ -105,9 +140,11 @@ class PostController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(LostItemPost $post)
-    {
-        return view('posts.edit', compact('post'));
-    }
+{
+    $categories = Category::all();
+    $post->load('LostItemImages');
+    return view('posts.edit', compact('post', 'categories'));
+}
 
     /**
      * Update the specified resource in storage.
@@ -153,43 +190,43 @@ class PostController extends Controller
     /**
      * Search and compare lost items.
      */
-=======
   
->>>>>>> bd9ac265f12cf2edfe3c80c203eec8ffef327092
     public function find(Request $request)
-    {
-        $attributes = $request->validate([
-            "color" => "string|nullable",
-            "category_id" => "integer|nullable",
-            "name" => "string|nullable",
-            "location" => "string|nullable"
-        ]);
+{
+    $attributes = $request->validate([
+        "color" => "string|nullable",
+        "category_id" => "integer|nullable",
+        "name" => "string|nullable",
+        "location" => "string|nullable"
+    ]);
 
-        $location = $attributes['location'] ?? null;
-        $name = $attributes['name'] ?? null;
-        $category_id = $attributes['category_id'] ?? null;
-        $color = $attributes['color'] ?? null;
+    $location = $attributes['location'] ?? null;
+    $name = $attributes['name'] ?? null;
+    $category_id = $attributes['category_id'] ?? null;
+    $color = $attributes['color'] ?? null;
 
-        $lostItems = LostItemPost::approved()
-            ->when($location, function ($query, $location) {
-                $query->where('location', 'like', '%' . $location . '%');
-            })
-            ->when($name, function ($query, $name) {
-                $query->where('name', 'like', '%' . $name . '%');
-            })
-            ->when($category_id, function ($query, $category_id) {
-                $query->where('category_id', $category_id);
-            })
-            ->when($color, function ($query, $color) {
-                $query->where('color', 'like', '%' . $color . '%');
-            })
-            ->with('images')
-            ->get();
+    $lostItems = LostItemPost::approved()
+        ->when($location, function ($query, $location) {
+            $query->where('location', 'like', '%' . $location . '%');
+        })
+        ->when($name, function ($query, $name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        })
+        ->when($category_id, function ($query, $category_id) {
+            $query->where('category_id', $category_id);
+        })
+        ->when($color, function ($query, $color) {
+            $query->where('color', 'like', '%' . $color . '%');
+        })
+        ->with('images', 'category') // Make sure to load the category relationship
+        ->get();
 
-        return view('posts.search_results', compact('lostItems'));
-    }
+    // Fetch all categories from your Category model
+    // $categories = \App\Models\Category::all(); 
+    $categories = Category::all();
 
-<<<<<<< HEAD
+    return view('find.search', compact('lostItems', 'categories'));
+}
     /**
      * Display pending posts for admin.
      */
@@ -203,24 +240,72 @@ class PostController extends Controller
     /**
      * Approve a pending post.
      */
-    public function approvePost(LostItemPost $post)
-    {
-        $post->is_approved = true;
-        $post->save();
+   public function approvePost(LostItemPost $post)
+{
+    // Update status to 'found' when approved
+    $post->update([
+        'is_approved' => true,
+        'status' => 'found', // Add this line to change status
+        'approved_at' => now(),
+        'approved_by' => auth()->id()
+    ]);
 
-        return redirect()->route('admin.pending_posts')->with('success', 'Post approved successfully.');
-    }
+    // Optional: Send notification to user
+    $post->user->notify(new PostApprovedNotification($post));
+
+    return redirect()->route('admin.pending_posts')
+           ->with('success', 'Post approved and status updated successfully');
+}
 
     /**
      * Reject a pending post.
      */
+
     public function rejectPost(LostItemPost $post)
     {
         $post->delete(); // Or you might want to add a 'rejected' status
         return redirect()->route('admin.pending_posts')->with('success', 'Post rejected successfully.');
     }
+
+
+    /**
+     * delete image for editing form.
+     */
+
+    public function destroyImage(LostItemImage $image)
+{
+    try {
+        // Verify ownership
+        // if (auth()->id() !== $image->lost_item_post_id) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Unauthorized action'
+        //     ], 403);
+        // }
+
+        // Delete file from storage
+        $path = 'public/'.$image->image_path;
+        if (Storage::exists($path)) {
+            Storage::delete($path);
+        }
+
+        // Delete record from database
+        $image->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Image deleted successfully'
+        ]);
+
+    } catch (\Exception $e) {
+        \Log::error("Image deletion failed: ".$e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Server error: '.$e->getMessage()
+        ], 500);
+    }
 }
-=======
+
     
 
      //non resful : using POST
@@ -241,61 +326,62 @@ class PostController extends Controller
         
     // }
 
-    public function destroy(LostItemPost $post)
-    {
-        if ($post) { 
-            $post->delete();
-            return response()->json([
-                'status' => 'successful deletion',
-            ], 201);           
-        }
-        return response()->json([
-            'message' => 'Invalid credentials/post absent'
-        ]);
+//     public function destroy(LostItemPost $post)
+//     {
+//         if ($post) { 
+//             $post->delete();
+//             return response()->json([
+//                 'status' => 'successful deletion',
+//             ], 201);           
+//         }
+//         return response()->json([
+//             'message' => 'Invalid credentials/post absent'
+//         ]);
         
         
-    }
-    public function update(Request $request, LostItemPost $post)
-{
-    $attributes = $request->validate([
-        'name' => ['required', 'string'],
-        'location' => ['required', 'string'],
-        'color' => ['required'],
-        'description' => ['required', 'string'],
-        'category_id' => ['required', 'integer'],
-        'status' => ['required', 'string'],
-        'contact' => ['required', 'string'],
-        'image_path' => ['required', 'string']
-    ]);
+//     }
+
+//     public function update(Request $request, LostItemPost $post)
+// {
+//     $attributes = $request->validate([
+//         'name' => ['required', 'string'],
+//         'location' => ['required', 'string'],
+//         'color' => ['required'],
+//         'description' => ['required', 'string'],
+//         'category_id' => ['required', 'integer'],
+//         'status' => ['required', 'string'],
+//         'contact' => ['required', 'string'],
+//         'image_path' => ['required', 'string']
+//     ]);
 
 
-    if ($post) {
-        $update_post = $post->update(Arr::except($attributes, ['image_path']));
+//     if ($post) {
+//         $update_post = $post->update(Arr::except($attributes, ['image_path']));
 
-        $image = LostItemImage::where('lost_item_post_id', $post->id)->first();
+//         $image = LostItemImage::where('lost_item_post_id', $post->id)->first();
 
-        if ($image) {
-            $update_images = $image->update(['image_path' => $attributes['image_path']]);
-        } else {
-            $update_images = LostItemImage::create([
-                'image_path' => $attributes['image_path'],
-                'lost_item_post_id' => $post->id
-            ]);
-        }
+//         if ($image) {
+//             $update_images = $image->update(['image_path' => $attributes['image_path']]);
+//         } else {
+//             $update_images = LostItemImage::create([
+//                 'image_path' => $attributes['image_path'],
+//                 'lost_item_post_id' => $post->id
+//             ]);
+//         }
 
-        if ($update_post) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Post successfully edited',
-                'post' => $post,
-                'images' => $update_images ?? $image
-            ]);
-        }
-    }
+//         if ($update_post) {
+//             return response()->json([
+//                 'status' => 'success',
+//                 'message' => 'Post successfully edited',
+//                 'post' => $post,
+//                 'images' => $update_images ?? $image
+//             ]);
+//         }
+//     }
 
-    return response()->json([
-        'message' => 'Invalid credentials'
-    ], 401);
+//     return response()->json([
+//         'message' => 'Invalid credentials'
+//     ], 401);
+//     }
 }
-}
->>>>>>> bd9ac265f12cf2edfe3c80c203eec8ffef327092
+

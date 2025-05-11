@@ -15,7 +15,13 @@ class LostItemImage extends Model
         "lost_item_post_id"
     ];
 
-    public function LostItemPost(){
-        return $this->belongsTo(LostItemPost::class);
+
+    public function lostItemPost()
+{
+    return $this->belongsTo(LostItemPost::class);
+}
+
+    public function LostItemImages(){
+        return $this->belongsTo(LostItemImages::class);
     }
 }

@@ -11,22 +11,51 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            .auth-background {
+                background: linear-gradient(135deg,rgb(48, 62, 143) 0%,rgb(132, 130, 168) 50%,rgb(161, 145, 187) 100%);
+                min-height: 100vh;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+
+            .card-background {
+                background: linear-gradient(135deg,rgb(155, 166, 228) 0%,rgb(186, 184, 219) 50%,rgb(223, 213, 240) 100%);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+            .auth-card {
+                width: 100%;
+                max-width: 28rem;
+                background: white;
+                border-radius: 1rem;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+                margin-top: 1.5rem;
+            }
+        </style>
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+    <body class="font-sans antialiased">
+        <div class="auth-background">
+          
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="auth-card">
                 {{ $slot }}
-
-                @stack('scripts')
             </div>
+
+            @stack('scripts')
         </div>
     </body>
 </html>

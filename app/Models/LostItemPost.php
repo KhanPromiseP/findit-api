@@ -11,14 +11,14 @@ class LostItemPost extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name",
-        "user_id",
-        "location",
-        "description",
-        "category_id",
-        "status",
-        "contact",
-        "color",
+        'user_id',
+        'category_id',
+        'name',
+        'color',
+        'location',
+        'contact',
+        'description',
+        'status',
 
         'is_approved',
         'approved_at',
@@ -38,7 +38,13 @@ class LostItemPost extends Model
 
     public function LostItemImages()
     {
-        return $this->hasMany(LostItemPost::class);
+    return $this->hasMany(LostItemImage::class);
+    }
+
+
+    public function images()  
+    {
+        return $this->hasMany(LostItemImage::class);
     }
 
     public function category()

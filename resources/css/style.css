@@ -1,0 +1,433 @@
+
+/* login */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  body {
+    background: linear-gradient(to right, #3f51b5, rgb(6, 163, 195));
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  .login-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    width: 350px; /* Slightly wider for better spacing */
+    text-align: center;
+    animation: slideUp 1s ease-out;
+  }
+
+  .login-title {
+    font-size: 2.2rem; /* Slightly larger title */
+    margin-bottom: 12px;
+    color: #e0f7fa; /* Light, contrasting color for title */
+  }
+
+  .login-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    opacity: 0.8;
+    color: #b2ebf2; /* Lighter shade for subtitle */
+  }
+
+  .login-form > div {
+    margin-bottom: 18px; /* Increased spacing between form groups */
+  }
+
+  .login-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #e0f7fa; /* Light color for labels */
+    font-size: 1rem;
+    text-align: left; /* Align labels to the left */
+  }
+
+  .login-form input[type="email"],
+  .login-form input[type="password"] {
+    width: 100%;
+    padding: 14px; /* Slightly larger input fields */
+    margin-bottom: 18px;
+    border: none;
+    border-radius: 10px; /* More rounded input fields */
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+    color: #333;
+    font-size: 1rem;
+    transition: box-shadow 0.3s ease; /* Add transition for focus effect */
+  }
+
+  .login-form input:focus {
+    box-shadow: 0 0 8px rgba(6, 163, 195, 0.5); /* Subtle focus glow */
+  }
+
+  .login-form .block.mt-1.w-full { /* Style the wrapper div for input and error */
+    margin-top: 0 !important; /* Override default mt-1 */
+  }
+
+  .login-form .mt-2 { /* Style the error message */
+    margin-top: 5px !important;
+    font-size: 0.85rem;
+    color: #ffdddd; /* Light red for error text */
+    text-align: left;
+  }
+
+  .login-form .inline-flex.items-center { /* Style the remember me container */
+    margin-top: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: flex-start; /* Align checkbox and label to the left */
+  }
+
+  .login-form input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    border: 1px solid #b2ebf2;
+    border-radius: 4px;
+    appearance: none; /* Remove default checkbox styling */
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .login-form input[type="checkbox"]:checked {
+    background-color: rgb(6, 163, 195);
+    border-color: rgb(6, 163, 195);
+  }
+
+  .login-form .ms-2.text-sm.text-gray-600 { /* Style the remember me label */
+    color: #b2ebf2;
+    font-size: 0.9rem;
+  }
+
+  .login-form .flex.items-center.justify-end.mt-4 { /* Style the buttons container */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space out forgot password and login button */
+    margin-top: 25px;
+  }
+
+  .login-form .underline.text-sm.text-gray-600.hover\:text-gray-900.rounded-md.focus\:outline-none.focus\:ring-2.focus\:ring-offset-2.focus\:ring-indigo-500 { /* Style the forgot password link */
+    color: #b2ebf2;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .login-form .underline.text-sm.text-gray-600.hover\:text-gray-900.rounded-md.focus\:outline-none.focus\:ring-2.focus\:ring-offset-2.focus\:ring-indigo-500:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  .login-form button.ms-3 { /* Style the login button */
+    margin-left: 15px;
+    padding: 14px 25px; /* Slightly more padding for the button */
+    border-radius: 25px;
+    font-size: 1.1rem; /* Slightly larger button text */
+  }
+
+  .signup-text {
+    margin-top: 25px;
+    font-size: 1rem;
+    color: #b2ebf2;
+  }
+
+  .signup-text a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+
+/* register */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #3f51b5, rgb(6, 163, 195));
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    animation: fadeIn 1s ease-out;
+}
+
+.signup-container {
+    text-align: center;
+}
+
+.signup-title {
+    font-size: 2.2rem; /* Slightly larger title */
+    margin-bottom: 12px;
+    color: #e0f7fa; /* Light, contrasting color for title */
+}
+
+.signup-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    opacity: 0.85;
+    color: #b2ebf2; /* Lighter shade for subtitle */
+}
+
+.signup-form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 450px; /* Adjusted width for better flow */
+    text-align: left;
+    backdrop-filter: blur(10px);
+    animation: slideUp 1s ease-out;
+}
+
+.signup-form .form-group {
+    margin-bottom: 18px; /* Increased spacing between form groups */
+}
+
+.signup-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #e0f7fa; /* Light color for labels */
+    font-size: 1rem;
+    text-align: left; /* Align labels to the left */
+}
+
+.signup-form input {
+    width: 100%;
+    padding: 14px; /* Slightly larger input fields */
+    margin-bottom: 18px;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+    border: none;
+    border-radius: 10px; /* More rounded input fields */
+    color: #333;
+    font-size: 1rem;
+    outline: none;
+    transition: box-shadow 0.3s ease; /* Add transition for focus effect */
+}
+
+.signup-form input:focus {
+    box-shadow: 0 0 8px rgba(6, 163, 195, 0.5); /* Subtle focus glow */
+}
+
+.signup-form .block.mt-1.w-full { /* Style the wrapper div for input and error */
+    margin-top: 0 !important; /* Override default mt-1 */
+}
+
+.signup-form .mt-2 { /* Style the error message */
+    margin-top: 5px !important;
+    font-size: 0.85rem;
+    color: #ffdddd; /* Light red for error text */
+    text-align: left;
+}
+
+.signup-form .flex.items-center.justify-end.mt-4 { /* Style the buttons container */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space out login link and create account button */
+    margin-top: 25px;
+}
+
+.signup-form .underline.text-sm.text-gray-600.hover\:text-gray-900.rounded-md.focus\:outline-none.focus\:ring-2.focus\:ring-offset-2.focus\:ring-indigo-500.loin-text { /* Style the login link */
+    color: #b2ebf2;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.signup-form .underline.text-sm.text-gray-600.hover\:text-gray-900.rounded-md.focus\:outline-none.focus\:ring-2.focus\:ring-offset-2.focus\:ring-indigo-500.loin-text:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.signup-form button.ms-4 { /* Style the create account button */
+    margin-left: 15px;
+    padding: 14px 25px; /* Slightly more padding for the button */
+    border-radius: 25px;
+    font-size: 1.1rem; /* Slightly larger button text */
+    background-color: #fff; /* Keep button white */
+    color: rgb(6, 163, 195); /* Use the accent color for text */
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.signup-form button.ms-4:hover {
+    background-color: rgb(6, 163, 195); /* Accent color on hover */
+    color: #fff; /* White text on hover */
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+    margin-top: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* create post */
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(to right, #3f51b5, rgb(6, 163, 195));
+    padding: 40px 20px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 450px;
+    animation: fadeIn 1s ease;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  form input, form select {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+  }
+  
+  form input, form select {
+    background: #fff;
+    color: #333;
+  }
+  
+  form button {
+    background-color: #fff;
+    width:70%;
+    height:2.5rem;
+    border-radius: 2rem;
+    color:  rgb(6, 163, 195);
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: none;
+    margin: 0 3.5rem;
+    
+  }
+  
+  form button:hover {
+    background-color: rgb(6, 163, 195);
+    color: white;
+  }
+  
+  label {
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 5px;
+    color: #eee;
+  }
+  
+  .preview {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+  
+  .preview img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #fff;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+
+
+
+
+  

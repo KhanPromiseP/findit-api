@@ -1,7 +1,7 @@
 function goToLogin() {
-    window.location.href = "login.html"; 
+    window.location.href = "findit-api/resources/views/auth/login.blade.php"; 
   }
   
   function goToSignup() {
-    window.location.href = "register.html"; 
+    window.location.href = "findit-api/resources/views/auth/register.blade.php"; 
   }
