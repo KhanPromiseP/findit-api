@@ -27,23 +27,13 @@ Route::middleware('auth')->group(function () {
 Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('login', 'login');
-    
-    // Protected routes (require authentication)
-    // Route::middleware('auth:sanctum')->group(function () {
-    //     Route::get('profile', 'profile');
-    //     Route::post('logout', 'logout');  
-    // });
 });
 
-// Route::controller(PostController::class)->group(function () {
-//     Route::post('post', 'post');
-//     Route::post('find', 'find');
-// });
-
+Route::middleware('auth')->group(function () {
 Route::resource('posts', PostController::class);
 Route::get('/find/search', [PostController::class, 'find'])->name('find.search');
 Route::delete('/images/{image}', [PostController::class, 'destroyImage'])->name('images.destroy');
-
+});
 
 // Route::middleware(['auth'])->group(function () {
 //     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -60,19 +50,12 @@ Route::delete('/images/{image}', [PostController::class, 'destroyImage'])->name(
 
 
 
-Route::middleware(['auth'])->group(function () { // Ensure only authenticated users can access these
-    Route::prefix('admin')->group(function () { // Group all admin routes under the /admin prefix
+Route::middleware(['auth'])->group(function () { 
+    Route::prefix('admin')->group(function () { 
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-        // You'll need a controller method to handle pending posts
         Route::get('/pending-posts', [AdminController::class, 'pendingPosts'])->name('admin.pending-posts');
-        // And a method for approved posts
         Route::get('/approved-posts', [AdminController::class, 'approvedPosts'])->name('admin.approved-posts');
-        // And a method to display users
         Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-
-        // You'll also need routes for the other actions in your AdminController,
-        // like approving, rejecting, deleting posts, deleting users, etc.
-        // Make sure those routes are defined and named appropriately if you intend to link to them.
         Route::post('/posts/{postId}/approve', [AdminController::class, 'approvePost'])->name('admin.posts.approve');
         Route::post('/posts/{postId}/reject', [AdminController::class, 'rejectPost'])->name('admin.posts.reject');
         Route::post('/posts/{postId}/delete', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
