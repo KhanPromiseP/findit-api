@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
         Route::post('/posts/{postId}/approve', [AdminController::class, 'approvePost'])->name('admin.posts.approve');
         Route::post('/posts/{postId}/reject', [AdminController::class, 'rejectPost'])->name('admin.posts.reject');
-        Route::post('/posts/{postId}/delete', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
+        Route::delete('/posts/{postId}/delete', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
         Route::get('/posts/{postId}/contact', [AdminController::class, 'contactUser'])->name('admin.posts.contact');
         Route::delete('/users/{userId}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
@@ -66,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
         Route::post('/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+        // Using DELETE method
+        Route::delete('/posts/{post}/delete', [PostController::class, 'destroy'])->name('posts.delete');
     });
 
   });

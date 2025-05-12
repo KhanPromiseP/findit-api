@@ -47,22 +47,19 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex space-x-2">
-                                    <form action="{{ route('admin.posts.approve', $post->id) }}" method="POST">
+                                    <form action="{{ route('admin.posts.approve', $post->id) }}" method="POST" class="inline delete-post-form" data-post-id="{{ $post->id }}">
                                         @csrf
                                         <button type="submit" 
                                                 class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                             Approve
                                         </button>
                                     </form>
-                                    <form action="{{ route('admin.posts.reject', $post->id) }}" method="POST">
+                                     <form action="{{ route('admin.posts.delete', $post->id) }}" method="POST" class="inline delete-post-form" data-post-id="{{ $post->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
-                                                onclick="return confirm('Are you sure you want to reject this post?')"
-                                                class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                        <button type="button" class="bg-red-500 hover:bg-red-700 text-white text-sm font-bold py-1 px-3 rounded delete-post-btn">
                                             Reject
                                         </button>
-                                       
                                     </form>
                                     <a href="{{ route('posts.show', $post->id) }}" 
                                         class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -84,4 +81,57 @@
             <p class="text-gray-500">No pending posts awaiting approval.</p>
         </div>
     @endif
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deletePostForms = document.querySelectorAll('.delete-post-form');
+
+        deletePostForms.forEach(form => {
+            const deleteButton = form.querySelector('.delete-post-btn');
+            const postId = form.dataset.postId;
+            const rowToRemove = form.closest('tr'); 
+
+            deleteButton.addEventListener('click', function (event) {
+                if (confirm('Are you sure you want to delete this post?')) {
+                    const url = form.getAttribute('action');
+                    const formData = new FormData(form);
+
+                    fetch(url, {
+                        method: 'POST', 
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest' 
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            if (rowToRemove) {
+                                rowToRemove.remove();
+                            }
+
+                            const successDiv = document.createElement('div');
+                            successDiv.className = 'bg-green-200 border-green-500 text-green-700 p-4 mb-4 rounded-md';
+                            successDiv.textContent = 'Post deleted successfully.';
+
+                            const container = document.querySelector('.overflow-x-auto') || document.body; 
+                            container.insertBefore(successDiv, container.firstChild);
+
+                            setTimeout(() => {
+                                successDiv.remove();
+                            }, 3000);
+
+                        } else {
+                          
+                            console.error('Error deleting post:', response);
+                            alert('An error occurred while deleting the post.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        alert('An error occurred while deleting the post.');
+                    });
+                }
+            });
+        });
+    });
+</script>
 </x-admin-layout>

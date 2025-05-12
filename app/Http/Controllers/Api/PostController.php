@@ -150,42 +150,44 @@ class PostController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, LostItemPost $post)
-    {
-        $attributes = $request->validate([
-            'name' => ['required'],
-            'user_id' => ['required'],
-            'location' => ['required'],
-            'description' => ['required'],
-            'category_id' => ['required'],
-            'status' => ['required'],
-            'contact' => ['required'],
-            'image_path' => ['nullable'] // Make image_path nullable for updates
-        ]);
+{
+    $validated = $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'location' => ['required', 'string', 'max:255'],
+        'description' => ['required', 'string'],
+        'category_id' => ['required', 'exists:categories,id'],
+        'status' => ['required', 'in:lost,found'],
+        'contact' => ['required', 'string', 'max:255'],
+        'image_path' => ['sometimes', 'array'], 
+        'image_path.*' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048']
+    ]);
 
-        $post->update(Arr::except($attributes, ['image_path']));
+    // Update post attributes
+    $post->update(Arr::except($validated, ['image_path']));
 
-        if ($request->has('image_path')) {
-            // Delete existing image if a new one is provided
-            if ($post->images()->exists()) {
-                $post->images()->delete();
-            }
-            LostItemImage::create([
-                'image_path' => $attributes['image_path'],
-                'lost_item_post_id' => $post->id
-            ]);
+    // Here, we Handle image updates only if images were provided
+    if ($request->has('image_path') && is_array($request->image_path)) {
+        // Delete existing images
+        foreach ($post->LostItemImages as $image) {
+            Storage::delete('public/'.$image->image_path);
+            $image->delete();
         }
 
-        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+        // Store new images
+        foreach ($request->image_path as $image) {
+            if (is_uploaded_file($image)) { 
+                $path = $image->store('lost_item_images', 'public');
+                
+                LostItemImage::create([
+                    'lost_item_post_id' => $post->id,
+                    'image_path' => $path
+                ]);
+            }
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(LostItemPost $post)
-    {
-        $post->delete();
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
-    }
+    return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+}
 
     /**
      * Search and compare lost items.
@@ -308,21 +310,20 @@ class PostController extends Controller
 
     
 
-     //non resful : using POST
-
-    // public function destroy(Request $request)
-    // {
-    //     $post_id = $request->validate(['post_id' => ["required"]]);
-    //     if ($post = LostItemPost::find($post_id['post_id'])) { //use findOrFail on frontend not api as it auto sets an abort page
-    //         $post->delete();
-    //         return response()->json([
-    //             'status' => 'successful deletion',
-    //         ], 201);           
-    //     }
-    //     return response()->json([
-    //         'message' => 'Invalid credentials/post absent'
-    //     ]);
-        
+public function destroy(LostItemPost $post)
+{
+    // Delete associated images first
+    foreach ($post->LostItemImages as $image) {
+        Storage::delete('public/'.$image->image_path);
+        $image->delete();
+    }
+    
+    // Then delete the post
+    $post->delete();
+    
+    return redirect()->route('admin.posts.index')
+           ->with('success', 'Post deleted successfully');
+}
         
     // }
 

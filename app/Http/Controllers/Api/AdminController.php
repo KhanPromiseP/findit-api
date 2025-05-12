@@ -83,38 +83,33 @@ class AdminController extends Controller
         // Clear the cache for pending and approved posts to reflect the change
         Cache::forget('admin.pending_posts.page.*');
         Cache::forget('admin.approved_posts.page.*');
+        
+          if ($request->ajax()) {
+        return response()->json(['success' => true, 'message' => 'Post approved successfully']);
+    }
+
+    return back()->with('success', 'Post approved successfully');
 
         return back()->with('success', 'Post approved successfully');
     }
 
 
-
-
-    public function rejectPost(Request $request, $postId)
-    {
-        // Check if the user is authenticated and is an admin
-        if (!Auth::check() || !Auth::user()->is_admin) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        $post = LostItemPost::findOrFail($postId);
-        $post->delete();
-
-        return back()->with('success', 'Post rejected and deleted');
+   public function deletePost(Request $request, $postId)
+{
+    // Check if the user is authenticated and is an admin
+    if (!Auth::check() || !Auth::user()->is_admin) {
+        abort(403, 'Unauthorized action.');
     }
 
-    public function deletePost(Request $request, $postId)
-    {
-        // Check if the user is authenticated and is an admin
-        if (!Auth::check() || !Auth::user()->is_admin) {
-            abort(403, 'Unauthorized action.');
-        }
+    $post = LostItemPost::findOrFail($postId);
+    $post->delete();
 
-        $post = LostItemPost::findOrFail($postId);
-        $post->delete();
-
-        return back()->with('success', 'Post deleted successfully');
+    if ($request->ajax()) {
+        return response()->json(['success' => true, 'message' => 'Post deleted successfully']);
     }
+
+    return back()->with('success', 'Post deleted successfully');
+}
 
     public function contactUser(Request $request, $postId)
     {

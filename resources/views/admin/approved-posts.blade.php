@@ -23,7 +23,7 @@
                         <tr class="hover:bg-gray-50">
                             <td class="py-3 px-4 border-b">{{ Str::limit($post->name, 20) }}</td>
                             <td class="py-3 px-4 border-b text-sm overflow-hidden">
-                                <div class="max-h-20 overflow-y-auto max-w-xs truncate">
+                                <div class="max-h-20 overflow-y-automax-w-xs truncate">
                                     {{ $post->description }}
                                 </div>
                             </td>
@@ -39,20 +39,18 @@
                                 {{ $post->approved_at->format('M d, Y') }}
                             </td>
                             <td class="py-3 px-4 border-b">
-                                <form action="{{ route('admin.posts.delete', $post->id) }}" method="POST" class="inline">
+                               <form action="{{ route('admin.posts.delete', $post->id) }}" method="POST" class="inline delete-post-form" data-post-id="{{ $post->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" 
-                                            class="bg-red-500 hover:bg-red-700 text-white text-sm font-bold py-1 px-3 rounded"
-                                            onclick="return confirm('Are you sure you want to delete this post?')">
+                                    <button type="button" class="bg-red-500 hover:bg-red-700 text-white text-sm font-bold py-1 px-3 rounded delete-post-btn">
                                         Delete
                                     </button>
                                 </form>
                             </td>
-                              <td class="py-3 px-4 border-b">
+                            <td class="py-3 px-4 border-b">
                                <a href="{{ route('posts.show', $post->id) }}" 
-                            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                            View
+                                class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                View
                             </a>
                             </td>
                             
@@ -64,4 +62,57 @@
     @else
         <p class="text-gray-500">No approved posts found.</p>
     @endif
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deletePostForms = document.querySelectorAll('.delete-post-form');
+
+        deletePostForms.forEach(form => {
+            const deleteButton = form.querySelector('.delete-post-btn');
+            const postId = form.dataset.postId;
+            const rowToRemove = form.closest('tr'); 
+
+            deleteButton.addEventListener('click', function (event) {
+                if (confirm('Are you sure you want to delete this post?')) {
+                    const url = form.getAttribute('action');
+                    const formData = new FormData(form);
+
+                    fetch(url, {
+                        method: 'POST', 
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest' 
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            if (rowToRemove) {
+                                rowToRemove.remove();
+                            }
+
+                            const successDiv = document.createElement('div');
+                            successDiv.className = 'bg-green-200 border-green-500 text-green-700 p-4 mb-4 rounded-md';
+                            successDiv.textContent = 'Post deleted successfully.';
+
+                            const container = document.querySelector('.overflow-x-auto') || document.body; 
+                            container.insertBefore(successDiv, container.firstChild);
+
+                            setTimeout(() => {
+                                successDiv.remove();
+                            }, 3000);
+
+                        } else {
+                          
+                            console.error('Error deleting post:', response);
+                            alert('An error occurred while deleting the post.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        alert('An error occurred while deleting the post.');
+                    });
+                }
+            });
+        });
+    });
+</script>
 </x-admin-layout>
