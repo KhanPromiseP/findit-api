@@ -10,9 +10,12 @@ WORKDIR /var/www
 
 COPY . .
 
+COPY .env .env  # ✅ Ensure .env is copied
+
 RUN composer install --no-dev --optimize-autoloader
 
-# Permissions: Add this 👇
+RUN php artisan key:generate  # ✅ Only if .env exists
+
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
