@@ -14,26 +14,24 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
-COPY database/database.sqlite /var/www/database/database.sqlite
-
+# Ensure database directory and file exist
+RUN mkdir -p /var/www/database && touch /var/www/database/database.sqlite
 
 # Install composer dependencies
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions
-
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Cache Laravel configs
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+# Laravel config and cache
+RUN php artisan config:clear \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
-# Run database migrations with force flag to avoid prompt
+# Migrate database with force
 RUN php artisan migrate --force
-
 
 # Expose port
 EXPOSE 8000
