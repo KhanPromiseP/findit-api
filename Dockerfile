@@ -31,7 +31,8 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
 
-RUN php artisan migrate
+# Run database migrations with force flag to avoid prompt
+RUN php artisan migrate --force
 
 
 # Expose port
