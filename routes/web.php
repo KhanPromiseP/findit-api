@@ -8,13 +8,13 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\CategoryController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function () {
-    return 'Laravel is working!';
+    return view('welcome');
 });
+
+// Route::get('/', function () {
+//     return 'Laravel is working!';
+// });
 
 
 Route::get('/dashboard', function () {
