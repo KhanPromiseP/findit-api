@@ -14,10 +14,15 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+COPY database/database.sqlite /var/www/database/database.sqlite
+
+
+# Install composer dependencies
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer install --no-dev --optimize-autoloader
 
 # Set permissions
+
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
@@ -25,6 +30,9 @@ RUN chown -R www-data:www-data /var/www \
 RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
+
+RUN php artisan migrate
+
 
 # Expose port
 EXPOSE 8000
