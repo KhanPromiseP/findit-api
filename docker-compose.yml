@@ -7,24 +7,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     volumes:
       - .:/var/www
+      - /opt/lampp/htdocs/findit/findit-api/database:/var/www/database
     working_dir: /var/www
-
-  db:
-    image: mysql:8.0
-    restart: always
     environment:
-      MYSQL_DATABASE: findit-database
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 
-      MYSQL_ROOT_PASSWORD: rootpass
-    volumes:
-      - dbdata:/var/lib/mysql
-    ports:
-      - "3306:3306"
-
-volumes:
-  dbdata:
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/var/www/database/database.sqlite
+    command: php artisan serve --host=0.0.0.0 --port=8000
