@@ -16,6 +16,11 @@ Route::get('/test-db', function () {
     return \DB::table('users')->get();
 });
 
+Route::get('/check-log', function () {
+    return file_get_contents(storage_path('logs/laravel.log'));
+});
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
