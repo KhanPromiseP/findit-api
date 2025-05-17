@@ -12,7 +12,7 @@ services:
       - sqlite_data:/var/www/database
     environment:
       DB_CONNECTION: sqlite
-      DB_DATABASE: /var/www/database/database.sqlite
+      DB_DATABASE: /opt/lampp/htdocs/findit/findit-api/database/database.sqlite
     command: php artisan serve --host=0.0.0.0 --port=8000
 
 volumes:
