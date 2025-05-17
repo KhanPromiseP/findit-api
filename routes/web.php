@@ -12,9 +12,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/', function () {
-//     return 'Laravel is working!';
-// });
+Route::get('/test-db', function () {
+    return \DB::table('users')->get();
+});
 
 
 Route::get('/dashboard', function () {
