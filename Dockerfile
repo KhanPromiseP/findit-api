@@ -26,8 +26,8 @@ RUN php artisan config:clear \
     && php artisan view:cache
 
 # Migrate database (optional)
-RUN php artisan migrate --force
-RUN php artisan db:seed --force
+# RUN php artisan migrate --force
+# RUN php artisan db:seed --force
 
 
 EXPOSE 8000
