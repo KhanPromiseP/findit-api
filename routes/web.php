@@ -39,6 +39,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
 });
 
+
+
 Route::middleware('auth')->group(function () {
 Route::resource('posts', PostController::class);
 Route::get('/find/search', [PostController::class, 'find'])->name('find.search');
