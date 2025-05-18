@@ -22,7 +22,6 @@ RUN npm install
 # Copy application code
 COPY . .
 
-ENV NODE_ENV=production
 
 # Build frontend assets
 RUN npm run build
