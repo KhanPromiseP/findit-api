@@ -2,32 +2,56 @@
     <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <!-- Back Button -->
-            <div class="mb-6">
-                <a href="{{ route('posts.index') }}" class="inline-flex items-center text-blue-600 hover:text-blue-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-                    </svg>
+           <div class="mb-6">
+                <a href="{{ url()->previous() }}" class="inline-flex items-center bg-blue-200 text-blue-600 hover:bg-blue-300 hover:text-blue-800 px-4 py-2 rounded-md transition">
                     Back to all items
                 </a>
             </div>
+
+
 
             <!-- Item Card -->
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <!-- Image Gallery -->
                 @if($post->LostItemImages->count() > 0)
-                    <div class="relative h-64 sm:h-80 md:h-96 bg-gray-100">
-                        <img src="{{ asset('storage/'.$post->LostItemImages->first()->image_path) }}" 
-                             alt="{{ $post->name }}" 
-                             class="w-full h-full object-cover">
-                        
+                    <div class="relative h-64 sm:h-80 md:h-96 bg-gray-100 overflow-hidden group">
+                        <!-- Carousel Container -->
+                        <div class="relative h-full w-full">
+                            @foreach($post->LostItemImages as $index => $image)
+                                <img src="{{ asset('storage/'.$image->image_path) }}" 
+                                    alt="{{ $post->name }}" 
+                                    class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
+                                    data-carousel-image="{{ $index }}"
+                                    onclick="openFullscreen('{{ asset('storage/'.$image->image_path) }}')">
+                            @endforeach
+                        </div>
+
+                        <!-- Navigation Dots -->
                         @if($post->LostItemImages->count() > 1)
                             <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-                                @foreach($post->LostItemImages as $image)
+                                @foreach($post->LostItemImages as $index => $image)
                                     <button class="w-3 h-3 rounded-full bg-white bg-opacity-60 hover:bg-opacity-100 transition"
-                                            onclick="changeImage('{{ asset('storage/'.$image->image_path) }}')">
+                                            onclick="showImage({{ $index }})"
+                                            aria-label="Go to image {{ $index + 1 }}">
                                     </button>
                                 @endforeach
                             </div>
+                        @endif
+
+                        <!-- Navigation Arrows -->
+                        @if($post->LostItemImages->count() > 1)
+                            <button class="absolute left-2 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-80 rounded-full p-2 transition opacity-0 group-hover:opacity-100"
+                                    onclick="prevImage()">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-80 rounded-full p-2 transition opacity-0 group-hover:opacity-100"
+                                    onclick="nextImage()">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
                         @endif
                     </div>
                 @else
@@ -38,6 +62,18 @@
                     </div>
                 @endif
 
+                <!-- Fullscreen Image Viewer -->
+                <div id="fullscreen-viewer" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center p-4">
+                    <button class="absolute top-4 right-4 text-white text-3xl" onclick="closeFullscreen()">&times;</button>
+                    <img id="fullscreen-image" class="max-w-full max-h-full object-contain" src="" alt="">
+                    
+                    @if($post->LostItemImages->count() > 1)
+                        <button class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-3xl" onclick="fullscreenPrevImage()">❮</button>
+                        <button class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-3xl" onclick="fullscreenNextImage()">❯</button>
+                    @endif
+                </div>
+
+               
                 <!-- Item Details -->
                 <div class="p-6 sm:p-8">
                    <div class="flex justify-between items-start mb-2">
@@ -139,11 +175,70 @@
         </div>
     </div>
 
-    @if($post->LostItemImages->count() > 1)
-    <script>
-        function changeImage(src) {
-            document.querySelector('.relative img').src = src;
-        }
+   
+     <script>
+            // Carousel functionality
+            let currentImageIndex = 0;
+            const images = document.querySelectorAll('[data-carousel-image]');
+            const totalImages = images.length;
+            let fullscreenImages = [];
+            let currentFullscreenIndex = 0;
+
+            function showImage(index) {
+                images.forEach(img => img.classList.add('opacity-0'));
+                images[index].classList.remove('opacity-0');
+                currentImageIndex = index;
+            }
+
+            function nextImage() {
+                const nextIndex = (currentImageIndex + 1) % totalImages;
+                showImage(nextIndex);
+            }
+
+            function prevImage() {
+                const prevIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+                showImage(prevIndex);
+            }
+
+            // Fullscreen functionality
+            function openFullscreen(src) {
+                const fullscreenViewer = document.getElementById('fullscreen-viewer');
+                const fullscreenImage = document.getElementById('fullscreen-image');
+                
+                fullscreenImage.src = src;
+                fullscreenViewer.classList.remove('hidden');
+                fullscreenViewer.classList.add('flex');
+                document.body.classList.add('overflow-hidden');
+                
+                // Set up fullscreen navigation
+                fullscreenImages = Array.from(images).map(img => img.src);
+                currentFullscreenIndex = Array.from(images).findIndex(img => img.src.includes(src.split('/').pop()));
+            }
+
+            function closeFullscreen() {
+                document.getElementById('fullscreen-viewer').classList.add('hidden');
+                document.getElementById('fullscreen-viewer').classList.remove('flex');
+                document.body.classList.remove('overflow-hidden');
+            }
+
+            function fullscreenNextImage() {
+                currentFullscreenIndex = (currentFullscreenIndex + 1) % fullscreenImages.length;
+                document.getElementById('fullscreen-image').src = fullscreenImages[currentFullscreenIndex];
+            }
+
+            function fullscreenPrevImage() {
+                currentFullscreenIndex = (currentFullscreenIndex - 1 + fullscreenImages.length) % fullscreenImages.length;
+                document.getElementById('fullscreen-image').src = fullscreenImages[currentFullscreenIndex];
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                const fullscreenViewer = document.getElementById('fullscreen-viewer');
+                if (!fullscreenViewer.classList.contains('hidden')) {
+                    if (e.key === 'Escape') closeFullscreen();
+                    if (e.key === 'ArrowRight') fullscreenNextImage();
+                    if (e.key === 'ArrowLeft') fullscreenPrevImage();
+                }
+            });
     </script>
-    @endif
 </x-app-layout>

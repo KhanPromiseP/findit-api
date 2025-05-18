@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-admin-layout>
     <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-8 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <!-- Header Section -->
@@ -133,4 +133,4 @@
             @endif
         </div>
     </div>
-</x-app-layout>
+</x-admin-layout>

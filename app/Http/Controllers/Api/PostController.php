@@ -43,7 +43,7 @@ class PostController extends Controller
         $query = LostItemPost::where('user_id', auth()->id())
             ->with(['user', 'LostItemImages']);
 
-        if (!$request->user() || !$request->user()->is_admin) {
+        if (!$request->user()) {
             $query->where('is_approved', true);
         }
 
@@ -82,7 +82,7 @@ class PostController extends Controller
             'contact' => 'required|string|max:255',
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'image_path' => 'required|array|max:3',
+            'image_path' => 'required|array|max:4',
             'image_path.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -110,7 +110,7 @@ class PostController extends Controller
 
         return response()->json([
             'success' => true,
-            'redirect' => route('posts.index'),
+            'redirect' => route('posts.mine'),
             'message' => 'Item reported successfully! It will be visible after approval.'
         ]);
     
