@@ -17,16 +17,24 @@ services:
         value: pgsql
       - key: DB_HOST
         fromDatabase:
-            name: findit-db
+          name: findit-db
+          property: host
       - key: DB_PORT
-        value: 5432
+        fromDatabase:
+          name: findit-db
+          property: port
       - key: DB_DATABASE
-        value: laravel
+        fromDatabase:
+          name: findit-db
+          property: database
       - key: DB_USERNAME
-        value: laravel
+        fromDatabase:
+          name: findit-db
+          property: user
       - key: DB_PASSWORD
         fromDatabase:
-            name: findit-db
+          name: findit-db
+          property: password
 
 databases:
   - name: findit-db
