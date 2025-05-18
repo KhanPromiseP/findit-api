@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Providers;
+
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL; 
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,20 +20,19 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-   
+    public function boot()
+    {
+            if (app()->environment('production') && request()->header('x-forwarded-proto') == 'https') {
+            URL::forceScheme('https');
+        }
 
-public function boot()
-{
- 
-    
-    Model::preventLazyLoading();
+        \Illuminate\Database\Eloquent\Model::preventLazyLoading();
+        view()->addLocation(resource_path('views'));
+        
 
+        Model::preventLazyLoading();
 
-
-    // Enable view caching
-    view()->addLocation(resource_path('views'));
+        // Enable view caching
+        view()->addLocation(resource_path('views'));
+    }
 }
-}
-
-
-
