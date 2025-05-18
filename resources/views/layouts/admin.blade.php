@@ -52,6 +52,12 @@
                         </a>
                     </li>
                      <li class="mb-3">
+                        <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts') ? 'bg-indigo-900 shadow-md' : 'hover:bg-indigo-700' }} flex items-center py-2 px-4 rounded-md transition duration-300">
+                            <i class="fa-regular fa-clock fa-sm mr-3 text-yellow-400"></i>
+                            <span class="text-sm font-medium">All Lost Items</span>
+                        </a>
+                    </li>
+                     <li class="mb-3">
                         <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.index') ? 'bg-indigo-900 shadow-md' : 'hover:bg-indigo-700' }} flex items-center py-2 px-4 rounded-md transition duration-300">
                             <i class="fa-regular fa-clock fa-sm mr-3 text-yellow-400"></i>
                             <span class="text-sm font-medium">Create Categories</span>

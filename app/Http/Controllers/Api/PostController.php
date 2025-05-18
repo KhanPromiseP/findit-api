@@ -37,6 +37,26 @@ class PostController extends Controller
     }
 
 
+    public function mine(Request $request)
+{
+    try {
+        $query = LostItemPost::where('user_id', auth()->id())
+            ->with(['user', 'LostItemImages']);
+
+        if (!$request->user() || !$request->user()->is_admin) {
+            $query->where('is_approved', true);
+        }
+
+        $posts = $query->latest()->paginate(10);
+        
+        return view('posts.mine', compact('posts'));
+    } catch (\Exception $e) {
+        \Log::error('Error in mine(): ' . $e->getMessage());
+        abort(500, 'Could not load your posts. Please try again later.');
+    }
+}
+
+
     /**
      * Show the form for creating a new post.
      */
@@ -194,41 +214,41 @@ class PostController extends Controller
      */
   
     public function find(Request $request)
-{
-    $attributes = $request->validate([
-        "color" => "string|nullable",
-        "category_id" => "integer|nullable",
-        "name" => "string|nullable",
-        "location" => "string|nullable"
-    ]);
+    {
+        $attributes = $request->validate([
+            "color" => "string|nullable",
+            "category_id" => "integer|nullable",
+            "name" => "string|nullable",
+            "location" => "string|nullable"
+        ]);
 
-    $location = $attributes['location'] ?? null;
-    $name = $attributes['name'] ?? null;
-    $category_id = $attributes['category_id'] ?? null;
-    $color = $attributes['color'] ?? null;
+        $location = $attributes['location'] ?? null;
+        $name = $attributes['name'] ?? null;
+        $category_id = $attributes['category_id'] ?? null;
+        $color = $attributes['color'] ?? null;
 
-    $lostItems = LostItemPost::approved()
-        ->when($location, function ($query, $location) {
-            $query->where('location', 'like', '%' . $location . '%');
-        })
-        ->when($name, function ($query, $name) {
-            $query->where('name', 'like', '%' . $name . '%');
-        })
-        ->when($category_id, function ($query, $category_id) {
-            $query->where('category_id', $category_id);
-        })
-        ->when($color, function ($query, $color) {
-            $query->where('color', 'like', '%' . $color . '%');
-        })
-        ->with('images', 'category') // Make sure to load the category relationship
-        ->get();
+        $lostItems = LostItemPost::approved()
+            ->when($location, function ($query, $location) {
+                $query->where('location', 'like', '%' . $location . '%');
+            })
+            ->when($name, function ($query, $name) {
+                $query->where('name', 'like', '%' . $name . '%');
+            })
+            ->when($category_id, function ($query, $category_id) {
+                $query->where('category_id', $category_id);
+            })
+            ->when($color, function ($query, $color) {
+                $query->where('color', 'like', '%' . $color . '%');
+            })
+            ->with('images', 'category') // Make sure to load the category relationship
+            ->get();
 
-    // Fetch all categories from your Category model
-    // $categories = \App\Models\Category::all(); 
-    $categories = Category::all();
+        // Fetch all categories from your Category model
+        // $categories = \App\Models\Category::all(); 
+        $categories = Category::all();
 
-    return view('find.search', compact('lostItems', 'categories'));
-}
+        return view('find.search', compact('lostItems', 'categories'));
+    }
     /**
      * Display pending posts for admin.
      */
@@ -242,22 +262,24 @@ class PostController extends Controller
     /**
      * Approve a pending post.
      */
-   public function approvePost(LostItemPost $post)
-{
-    // Update status to 'found' when approved
-    $post->update([
-        'is_approved' => true,
-        'status' => 'found', // Add this line to change status
-        'approved_at' => now(),
-        'approved_by' => auth()->id()
-    ]);
+    public function approvePost(LostItemPost $post)
+    {
+        // Update status to 'found' when approved
+        $post->update([
+            'is_approved' => true,
+            'status' => 'found', // Add this line to change status
+            'approved_at' => now(),
+            'approved_by' => auth()->id()
+        ]);
 
-    // Optional: Send notification to user
-    $post->user->notify(new PostApprovedNotification($post));
+        // Optional: Send notification to user
+        $post->user->notify(new PostApprovedNotification($post));
 
-    return redirect()->route('admin.pending_posts')
-           ->with('success', 'Post approved and status updated successfully');
-}
+        return redirect()->route('admin.pending_posts')
+            ->with('success', 'Post approved and status updated successfully');
+    }
+
+
 
     /**
      * Reject a pending post.
@@ -325,64 +347,6 @@ public function destroy(LostItemPost $post)
            ->with('success', 'Post deleted successfully');
 }
         
-    // }
 
-//     public function destroy(LostItemPost $post)
-//     {
-//         if ($post) { 
-//             $post->delete();
-//             return response()->json([
-//                 'status' => 'successful deletion',
-//             ], 201);           
-//         }
-//         return response()->json([
-//             'message' => 'Invalid credentials/post absent'
-//         ]);
-        
-        
-//     }
-
-//     public function update(Request $request, LostItemPost $post)
-// {
-//     $attributes = $request->validate([
-//         'name' => ['required', 'string'],
-//         'location' => ['required', 'string'],
-//         'color' => ['required'],
-//         'description' => ['required', 'string'],
-//         'category_id' => ['required', 'integer'],
-//         'status' => ['required', 'string'],
-//         'contact' => ['required', 'string'],
-//         'image_path' => ['required', 'string']
-//     ]);
-
-
-//     if ($post) {
-//         $update_post = $post->update(Arr::except($attributes, ['image_path']));
-
-//         $image = LostItemImage::where('lost_item_post_id', $post->id)->first();
-
-//         if ($image) {
-//             $update_images = $image->update(['image_path' => $attributes['image_path']]);
-//         } else {
-//             $update_images = LostItemImage::create([
-//                 'image_path' => $attributes['image_path'],
-//                 'lost_item_post_id' => $post->id
-//             ]);
-//         }
-
-//         if ($update_post) {
-//             return response()->json([
-//                 'status' => 'success',
-//                 'message' => 'Post successfully edited',
-//                 'post' => $post,
-//                 'images' => $update_images ?? $image
-//             ]);
-//         }
-//     }
-
-//     return response()->json([
-//         'message' => 'Invalid credentials'
-//     ], 401);
-//     }
 }
 

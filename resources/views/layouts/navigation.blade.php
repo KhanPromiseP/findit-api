@@ -36,6 +36,7 @@
             @if(Auth::check() && Auth::user()->is_admin)
                 <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">{{ __('Admin Dashboard') }}</a>
             @endif
+                <a href="{{ route('posts.mine') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">{{ __('My Posts') }}</a>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf

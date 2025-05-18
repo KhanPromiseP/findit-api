@@ -23,7 +23,7 @@
                         <tr class="hover:bg-gray-50">
                             <td class="py-3 px-4 border-b">{{ Str::limit($post->name, 20) }}</td>
                             <td class="py-3 px-4 border-b text-sm overflow-hidden">
-                                <div class="max-h-20 overflow-y-automax-w-xs truncate">
+                                <div class="max-h-20 overflow-y-auto max-w-xs truncate">
                                     {{ $post->description }}
                                 </div>
                             </td>

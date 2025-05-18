@@ -12,15 +12,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test-db', function () {
-    return \DB::table('users')->get();
-});
-
-Route::get('/check-log', function () {
-    return file_get_contents(storage_path('logs/laravel.log'));
-});
-
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -39,26 +30,16 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
 });
 
-
+Route::get('/posts/mine', [PostController::class, 'mine'])
+    ->middleware('auth')
+    ->name('posts.mine');
 
 Route::middleware('auth')->group(function () {
-Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class);  //This is a resource route
+// Route::get('/posts/mine', [PostController::class, 'mine'])->name('posts.mine');
 Route::get('/find/search', [PostController::class, 'find'])->name('find.search');
 Route::delete('/images/{image}', [PostController::class, 'destroyImage'])->name('images.destroy');
 });
-
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-//     Route::get('/admin/pending-posts', [PostController::class, 'pendingPosts'])->name('admin.pending_posts');
-//     // Route::patch('/admin/posts/{post}/approve', [PostController::class, 'approvePost'])->name('admin.posts.approve');
-//     Route::post('/admin/posts/{post}/approve', [AdminController::class, 'approvePost'])->name('admin.posts.approve');
-//     Route::post('/admin/posts/{post}/reject', [AdminController::class, 'rejectPost'])->name('admin.posts.reject');
-//     Route::delete('/admin/posts/{post}', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
-//     Route::get('/admin/contact/{post}', [AdminController::class, 'contactUser'])->name('admin.contact.user');
-//     Route::delete('/admin/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
-// });
-
-
 
 
 
