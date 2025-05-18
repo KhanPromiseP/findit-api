@@ -10,24 +10,22 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy application
+# Copy application code
 COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+# Set permissions (combine chmod and chown)
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && \
+    chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Cache config and routes
-RUN php artisan config:clear \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
-RUN php artisan storage:link
-
-
+# Cache config and routes (after permissions)
+RUN php artisan config:clear && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache && \
+    php artisan storage:link
 
 EXPOSE 8000
 
