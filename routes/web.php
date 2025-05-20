@@ -6,7 +6,9 @@ use App\Http\Controllers\Api\AdminController;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\FindController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\AdminHelpRequestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,9 +40,21 @@ Route::middleware('auth')->group(function () {
 Route::resource('posts', PostController::class);  //This is a resource route
 // Route::get('/posts/mine', [PostController::class, 'mine'])->name('posts.mine');
 Route::get('/find/search', [PostController::class, 'find'])->name('find.search');
+Route::get('/find/showsearch/{post}', [PostController::class, 'showsearch'])->name('find.showsearch');
 Route::delete('/images/{image}', [PostController::class, 'destroyImage'])->name('images.destroy');
+
+Route::post('/find/help-request', [FindController::class, 'storeHelpRequest'])->name('find.help-request');
 });
 
+
+
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function() {
+    Route::resource('help-requests', AdminHelpRequestController::class);
+    Route::get('/help-requests', [AdminHelpRequestController::class, 'index'])->name('help-requests.index');
+    Route::get('/help-requests/{helpRequest}', [AdminHelpRequestController::class, 'show'])->name('help-requests.show');
+    Route::put('/help-requests/{helpRequest}', [AdminHelpRequestController::class, 'update'])->name('help-requests.update');
+});
 
 
 Route::middleware(['auth'])->group(function () { 

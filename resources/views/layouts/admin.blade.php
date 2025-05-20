@@ -75,7 +75,14 @@
                             <span class="text-sm font-medium">Approved</span>
                         </a>
                     </li>
-                    <li class="mb-3">
+                   <li class="mb-3">
+                        <a href="{{ route('admin.help-requests.index') }}" 
+                        class="{{ request()->routeIs('admin.help-requests.*') ? 'bg-indigo-900 shadow-md' : 'hover:bg-indigo-700' }} flex items-center py-2 px-4 rounded-md transition duration-300">
+                            <i class="fa-solid fa-users fa-sm mr-3 text-yellow-400"></i>
+                            <span class="text-sm font-medium">Help Requests</span>
+                        </a>
+                    </li>
+                     <li class="mb-3">
                         <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users') ? 'bg-indigo-900 shadow-md' : 'hover:bg-indigo-700' }} flex items-center py-2 px-4 rounded-md transition duration-300">
                             <i class="fa-solid fa-users fa-sm mr-3 text-yellow-400"></i>
                             <span class="text-sm font-medium">Users</span>

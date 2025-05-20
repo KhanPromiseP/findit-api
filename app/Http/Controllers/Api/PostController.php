@@ -156,6 +156,15 @@ class PostController extends Controller
         return view('posts.show', compact('post'));
     }
 
+
+     /**
+     * Display the specified search results for the searcher to be able to see the details description for his item.
+     */
+    public function showsearch(LostItemPost $post)
+    {
+        return view('find.showsearch', compact('post'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
