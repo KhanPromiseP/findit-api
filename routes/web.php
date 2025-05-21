@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\PaymentSettingsController;
+use App\Http\Controllers\Api\PaymentController;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AdminController;
@@ -54,8 +58,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/help-requests', [AdminHelpRequestController::class, 'index'])->name('help-requests.index');
     Route::get('/help-requests/{helpRequest}', [AdminHelpRequestController::class, 'show'])->name('help-requests.show');
     Route::put('/help-requests/{helpRequest}', [AdminHelpRequestController::class, 'update'])->name('help-requests.update');
+
+
+    //payment routes for the admin
+    Route::get('/payment-settings', [PaymentSettingsController::class, 'index'])->name('payment.settings');
+    Route::put('/payment-settings', [PaymentSettingsController::class, 'update'])->name('payment.update');
 });
 
+
+// User Payment Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pay', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+    Route::get('/payment.success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment.failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
+    Route::get('/invoice/{invoiceId}/download', [PaymentController::class, 'downloadInvoice'])->name('invoice.download');
+});
 
 Route::middleware(['auth'])->group(function () { 
     Route::prefix('admin')->group(function () { 
@@ -78,6 +95,22 @@ Route::middleware(['auth'])->group(function () {
     });
 
   });
+
+
+
+
+
+
+  // Admin Dashboard Routes
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/payments', [AdminController::class, 'payments'])->name('admin.payments');
+    Route::delete('/payments/{payment}', [AdminController::class, 'destroyPayment'])->name('admin.payments.destroy');
+    
+    Route::get('/found-items', [AdminController::class, 'foundItems'])->name('admin.found-items');
+    Route::get('/found-items/{foundItem}', [AdminController::class, 'showFoundItem'])->name('admin.found-items.show');
+    Route::put('/found-items/{foundItem}/status', [AdminController::class, 'updateFoundItemStatus'])->name('admin.found-items.update-status');
+    Route::delete('/found-items/{foundItem}', [AdminController::class, 'destroyFoundItem'])->name('admin.found-items.destroy');
+});
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\LostItemPost;
 use App\Models\User;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -204,5 +205,63 @@ class AdminController extends Controller
         return back()->with('success', 'User deleted successfully');
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public function payments()
+{
+    $payments = Invoice::with(['user', 'product'])->latest()->paginate(10);
+    $totalPayments = Invoice::sum('amount');
+    
+    return view('admin.payments', compact('invoices', 'totalPayments'));
+}
+
+
+public function helpRequests()
+{
+    $helpRequests = HelpRequest::with('user')->latest()->paginate(10);
+    $helpRequestsCount = HelpRequest::count();
+    
+    return view('admin.help-requests.index', compact('helpRequests', 'helpRequestsCount'));
+}
+
+// public function foundItems()
+// {
+//     $foundItems = FoundItem::with('foundBy')->latest()->paginate(10);
+//     $foundItemsCount = FoundItem::count();
+    
+//     return view('admin.found-items', compact('foundItems', 'foundItemsCount'));
+// }
+
+
+
+public function destroyPayment(Payment $payment)
+{
+    $payment->delete();
+    return back()->with('success', 'Payment record deleted successfully');
+}
+
+public function destroyHelpRequest(HelpRequest $helpRequest)
+{
+    $helpRequest->delete();
+    return back()->with('success', 'Help request deleted successfully');
+}
+
+public function destroyFoundItem(FoundItem $foundItem)
+{
+    $foundItem->delete();
+    return back()->with('success', 'Found item deleted successfully');
+}
 
 }
