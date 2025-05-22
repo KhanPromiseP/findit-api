@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Models\Payment;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -31,121 +34,181 @@ class PaymentController extends Controller
         return view('payment.form', compact('publicKey', 'amount', 'currency', 'user'));
     }
 
-    /**
-     * Handle successful payment from Flutterwave.
-     */
-    public function paymentSuccess(Request $request)
-    {
-        $txRef = $request->query('tx_ref');
 
-        if (!$txRef) {
-            return redirect()->route('payment.failure')->with('error', 'Transaction reference missing.');
+
+    // Handle Flutterwave callback (server-side verification)
+    public function handleCallback(Request $request)
+    {
+        // Verify this is a legitimate Flutterwave callback
+        if (!$request->has('tx_ref') || !$request->has('transaction_id') || !$request->has('status')) {
+            return $this->failedPayment($request, 'Invalid callback parameters');
         }
 
-        try {
-            $response = $this->verifyFlutterwavePayment($txRef);
+        $transactionId = $request->transaction_id;
+        $txRef = $request->tx_ref;
+        $status = $request->status;
 
-            if (
-                isset($response['status'], $response['data']['status']) &&
-                $response['status'] === 'success' &&
-                $response['data']['status'] === 'successful'
-            ) {
-                // Invoice logic starts here
-                try {
-                    $invoiceData = [
-                        'txRef' => $txRef,
-                        'amount' => $response['data']['amount'],
-                        'currency' => $response['data']['currency'],
-                        'customerEmail' => $response['data']['customer']['email'],
-                        'date' => now()->format('Y-m-d H:i:s'),
-                        'invoiceId' => 'INV-' . time(),
-                    ];
-
-                    // Generate PDF from Blade view
-                    $pdf = \PDF::loadView('invoices.template', $invoiceData);
-
-                    $invoiceFileName = 'invoice_' . $invoiceData['invoiceId'] . '.pdf';
-                    $invoicePath = storage_path('app/invoices/' . $invoiceFileName);
-
-                    // Ensure invoices directory exists
-                    if (!\File::isDirectory(dirname($invoicePath))) {
-                        \File::makeDirectory(dirname($invoicePath), 0755, true, true);
-                    }
-
-                    $pdf->save($invoicePath);
-
-                    // Save invoice to database
-                    \App\Models\Invoice::create([
-                        'user_id' => Auth::id(),
-                        'order_id' => $response['data']['tx_ref'] ?? null,
-                        'invoice_id' => $invoiceData['invoiceId'],
-                        'file_path' => 'invoices/' . $invoiceFileName,
-                        'amount' => $invoiceData['amount'],
-                        'currency' => $invoiceData['currency'],
-                        'status' => 'generated',
-                    ]);
-
-                    $invoiceId = $invoiceData['invoiceId'];
-
-                } catch (\Exception $e) {
-                    Log::error("Invoice Generation Error: " . $e->getMessage());
-                    $invoiceId = 'error';
-                    return view('payment.success', compact('txRef', 'response', 'invoiceId'))
-                        ->with('warning', 'Payment was successful, but invoice generation failed. Please contact support.');
-                }
-
-                return view('payment.success', compact('txRef', 'response', 'invoiceId'));
-            }
-
-            return redirect()->route('payment.failure')
-                ->with('error', 'Payment verification failed: ' . ($response['message'] ?? 'Unknown error.'));
-
-        } catch (\Exception $e) {
-            Log::error('Payment verification error: ' . $e->getMessage(), ['tx_ref' => $txRef]);
-            return redirect()->route('payment.failure')->with('error', 'An error occurred. Please try again later.');
-        }
-    }
-
-
-    /**
-     * Handle failed payment or verification error.
-     */
-    public function paymentFailure(Request $request)
-    {
-        $txRef = $request->query('tx_ref');
-        $status = $request->query('status');
-        $message = $request->session()->get('error', 'Your payment could not be processed.');
-
-        return view('payment.failure', compact('txRef', 'status', 'message'));
-    }
-
-    /**
-     * Allow user to download their invoice.
-     */
-    public function downloadInvoice($invoiceId)
-    {
-        // Replace with real logic in production
-        $filePath = storage_path("app/invoices/invoice_{$invoiceId}.pdf");
-
-        if (!file_exists($filePath)) {
-            abort(404, 'Invoice not found.');
+        // Check if we've already processed this transaction
+        $existingPayment = Payment::where('transaction_id', $transactionId)->first();
+        if ($existingPayment) {
+            return $this->processExistingPayment($existingPayment);
         }
 
-        return response()->download($filePath, "invoice_{$invoiceId}.pdf");
+        // Verify transaction with Flutterwave API
+        $verificationResponse = $this->verifyTransaction($transactionId);
+        
+        if (!$verificationResponse->successful()) {
+            return $this->failedPayment($request, 'Failed to verify transaction with Flutterwave');
+        }
+
+        $verificationData = $verificationResponse->json();
+        
+        if ($verificationData['status'] !== 'success' || $verificationData['data']['status'] !== 'successful') {
+            return $this->failedPayment($request, 'Transaction not successful on Flutterwave');
+        }
+
+        // Extract relevant data
+        $paymentData = $verificationData['data'];
+        $amount = $paymentData['amount'];
+        $currency = $paymentData['currency'];
+        $customerEmail = $paymentData['customer']['email'];
+        
+        // Find user (you might want to use tx_ref to match with your user)
+        $userId = $this->extractUserIdFromTxRef($txRef);
+        $user = User::find($userId);
+
+        if (!$user) {
+            return $this->failedPayment($request, 'User not found');
+        }
+
+        // Create payment record
+        $payment = Payment::create([
+            'user_id' => $user->id,
+            'transaction_id' => $transactionId,
+            'tx_ref' => $txRef,
+            'amount' => $amount,
+            'currency' => $currency,
+            'status' => 'successful',
+            'payment_method' => $paymentData['payment_type'] ?? 'unknown',
+            'customer_email' => $customerEmail,
+            'metadata' => json_encode($paymentData),
+            'verified_at' => now(),
+        ]);
+
+        // TODO: Add your business logic here (e.g., grant access, send email, etc.)
+
+        return $this->successfulPayment($payment);
     }
 
-    /**
-     * Private method to verify payment via Flutterwave API.
-     */
-    private function verifyFlutterwavePayment($txRef)
+    // Handle successful payment
+    protected function successfulPayment(Payment $payment)
+    {
+        // You might want to redirect to a success page with payment details
+        return redirect()->route('payment.success')
+            ->with('success', 'Payment verified successfully')
+            ->with('payment', $payment);
+    }
+
+    // Handle failed payment
+    protected function failedPayment(Request $request, string $reason)
+    {
+        // Log the failure
+        \Log::error("Payment verification failed: {$reason}", $request->all());
+
+        // Create a failed payment record if you want to track failures
+        if ($request->has('tx_ref') && $request->has('transaction_id')) {
+            Payment::create([
+                'transaction_id' => $request->transaction_id,
+                'tx_ref' => $request->tx_ref,
+                'status' => 'failed',
+                'failure_reason' => $reason,
+                'metadata' => json_encode($request->all()),
+            ]);
+        }
+
+        return redirect()->route('payment.failure')
+            ->with('error', 'Payment verification failed: ' . $reason);
+    }
+
+    // Verify transaction with Flutterwave API
+    protected function verifyTransaction(string $transactionId)
     {
         $secretKey = config('services.flutterwave.secret_key');
-        $url = "https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref={$txRef}";
 
-        $response = Http::withToken($secretKey)
-            ->acceptJson()
-            ->get($url);
+        return Http::withHeaders([
+            'Authorization' => 'Bearer ' . $secretKey,
+            'Content-Type' => 'application/json',
+        ])->get("https://api.flutterwave.com/v3/transactions/{$transactionId}/verify");
+    }
 
-        return $response->json();
+    // Extract user ID from transaction reference
+    protected function extractUserIdFromTxRef(string $txRef)
+    {
+        // Assuming your tx_ref format is "rave-[random]-[user_id]"
+        $parts = explode('-', $txRef);
+        return end($parts);
+    }
+
+    // Handle existing payment
+    protected function processExistingPayment(Payment $payment)
+    {
+        if ($payment->status === 'successful') {
+            return $this->successfulPayment($payment);
+        }
+
+        return $this->failedPayment(request(), 'Payment was previously recorded as failed');
+    }
+
+    // Success page (frontend)
+    public function paymentSuccess()
+    {
+        if (!session()->has('success')) {
+            return redirect()->route('home');
+        }
+
+        return view('payment.success', [
+            'payment' => session('payment'),
+        ]);
+    }
+
+
+
+    public function initiatePayment(Request $request)
+{
+    $validated = $request->validate([
+        'tx_ref' => 'required|string',
+        'amount' => 'required|numeric',
+        'currency' => 'required|string|size:3',
+        'user_id' => 'required|exists:users,id'
+    ]);
+
+    // Create a pending payment record
+    $payment = Payment::create([
+        'user_id' => $validated['user_id'],
+        'tx_ref' => $validated['tx_ref'],
+        'amount' => $validated['amount'],
+        'currency' => $validated['currency'],
+        'status' => 'pending',
+    ]);
+
+    return response()->json(['success' => true, 'payment_id' => $payment->id]);
+}
+
+public function processing(Request $request)
+{
+    // Show a processing page that polls the server for verification completion
+    return view('payment.processing', [
+        'tx_ref' => $request->tx_ref,
+        'transaction_id' => $request->transaction_id,
+        'user_id' => $request->user_id
+    ]);
+}
+
+    // Failure page (frontend)
+    public function paymentFailure()
+    {
+        return view('payment.failure', [
+            'error' => session('error', 'Unknown payment error'),
+        ]);
     }
 }

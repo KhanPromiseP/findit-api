@@ -55,10 +55,6 @@ Route::post('/find/help-request', [FindController::class, 'storeHelpRequest'])->
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function() {
     Route::resource('help-requests', AdminHelpRequestController::class);
-    Route::get('/help-requests', [AdminHelpRequestController::class, 'index'])->name('help-requests.index');
-    Route::get('/help-requests/{helpRequest}', [AdminHelpRequestController::class, 'show'])->name('help-requests.show');
-    Route::put('/help-requests/{helpRequest}', [AdminHelpRequestController::class, 'update'])->name('help-requests.update');
-
 
     //payment routes for the admin
     Route::get('/payment-settings', [PaymentSettingsController::class, 'index'])->name('payment.settings');
@@ -68,11 +64,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
 // User Payment Routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/pay', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+    Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
     Route::get('/payment.success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/payment.failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
     Route::get('/invoice/{invoiceId}/download', [PaymentController::class, 'downloadInvoice'])->name('invoice.download');
+
+    Route::get('/payment/callback', [PaymentController::class, 'handleCallback'])->name('payment.callback');
+    Route::post('/payment/initiate', [PaymentController::class, 'initiatePayment'])->name('payment.initiate');
+    Route::get('/payment/processing', [PaymentController::class, 'processing'])->name('payment.processing');
 });
+
+
 
 Route::middleware(['auth'])->group(function () { 
     Route::prefix('admin')->group(function () { 

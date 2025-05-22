@@ -7,7 +7,7 @@
                 <div class="p-6 flex items-center justify-between">
                     <div class="">
                         <h3 class="text-lg font-semibold text-blue-600 mb-2">Pending Posts</h3>
-                        <p class="text-3xl font-bold text-gray-700">{{ count($pendingPosts) }}</p>
+                         <p class="text-3xl font-bold text-gray-700">{{ count($pendingPosts ?? []) }}</p>
                     </div>
                     <div class="text-blue-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
@@ -24,7 +24,7 @@
                 <div class="p-6 flex items-center justify-between">
                     <div class="">
                         <h3 class="text-lg font-semibold text-green-600 mb-2">Approved Posts</h3>
-                        <p class="text-3xl font-bold text-gray-700">{{ count($approvedPosts) }}</p>
+                        <p class="text-3xl font-bold text-gray-700">{{ count($approvedPosts ?? []) }}</p>
                     </div>
                     <div class="text-green-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
@@ -41,7 +41,7 @@
                 <div class="p-6 flex items-center justify-between">
                     <div class="">
                         <h3 class="text-lg font-semibold text-indigo-600 mb-2">Users</h3>
-                        <p class="text-3xl font-bold text-gray-700">{{ count($users) }}</p>
+                        <p class="text-3xl font-bold text-gray-700">{{ count($users ?? []) }}</p>
                     </div>
                     <div class="text-indigo-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
@@ -65,7 +65,7 @@
         <div class="p-6 flex items-center justify-between">
             <div class="">
                 <h3 class="text-lg font-semibold text-blue-600 mb-2">Total Payments</h3>
-                {{-- <p class="text-3xl font-bold text-gray-700">{{ ($totalPayments) }}?? '0'</p> --}}
+                <p class="text-3xl font-bold text-gray-700">{{ ($totalPayments) }}</p>
             </div>
             <div class="text-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
@@ -83,7 +83,7 @@
         <div class="p-6 flex items-center justify-between">
             <div class="">
                 <h3 class="text-lg font-semibold text-green-600 mb-2">Help Requests</h3>
-                {{-- <p class="text-3xl font-bold text-gray-700">{{ $helpRequestsCount }}?? '0'</p> --}}
+                <p class="text-3xl font-bold text-gray-700">{{ $helpRequestsCount }}</p>
             </div>
             <div class="text-green-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
@@ -101,7 +101,7 @@
         <div class="p-6 flex items-center justify-between">
             <div class="">
                 <h3 class="text-lg font-semibold text-indigo-600 mb-2">Found Items</h3>
-                {{-- <p class="text-3xl font-bold text-gray-700">{{ $foundItemsCount }}?? '0'</p> --}}
+                <p class="text-3xl font-bold text-gray-700">{{ $foundItemsCount }}</p>
             </div>
             <div class="text-indigo-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
