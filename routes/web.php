@@ -143,7 +143,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
 //chat Routes
 Route::middleware('auth')->group(function () {
-    Route::get('/chat/{user}', [ChatController::class, 'show']);
+    Route::get('/chat/{user}/show', [ChatController::class, 'chat.show']);
     Route::get('/fetch-messages', [ChatController::class, 'fetch']);
     Route::post('/send-message', [ChatController::class, 'send']);
     // Route::delete('/delete-message', [ChatController::class, 'destroy']);
