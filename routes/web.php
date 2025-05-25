@@ -143,13 +143,13 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
 //chat Routes
 Route::middleware('auth')->group(function () {
-    Route::get('/chat/{user}/show', [ChatController::class, 'chat.show']);
+    Route::get('/chat/{user}', [ChatController::class, 'show'])->name('chat.show');
     Route::get('/fetch-messages', [ChatController::class, 'fetch']);
     Route::post('/send-message', [ChatController::class, 'send']);
     // Route::delete('/delete-message', [ChatController::class, 'destroy']);
     Route::put('/update-message/{messageId}', [ChatController::class, 'update']);
 });
-Route::view('/chat','testbutton')->middleware("auth");
+// Route::view('/chat','testbutton')->middleware("auth")->name('chat.show');
 
 
 // Admin routes

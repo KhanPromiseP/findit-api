@@ -251,7 +251,7 @@
             });
         };
         
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
+        // window.addEventListener('scroll', animateOnScroll);
+        // window.addEventListener('load', animateOnScroll);
     </script>
 </x-app-layout>

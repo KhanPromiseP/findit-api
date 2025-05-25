@@ -11,10 +11,25 @@ use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
-    public function show(User $user)
-    {
-        return view("chat.index", ["receiver" => $user]);
+
+
+    public function show($userId)
+{
+    $user = User::find($userId);
+    
+    if (!$user || $user->id === 0) {
+        abort(404, "User not found");
     }
+
+    if ($user->id === auth()->id()) {
+        return back()->with('error', "You can't message yourself");
+    }
+
+    return view('chat.index', ["receiver" => $user]);
+}
+
+   
+
     public function send(Request $request, User $user)
     {
         $request->validate([

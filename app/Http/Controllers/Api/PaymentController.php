@@ -39,12 +39,31 @@ class PaymentController extends Controller
     }
 
 
-       public function found(LostItemPost $post)
-    {
-        $post->load('user', 'LostItemImages', 'category');
-        return view('posts.found', compact('post'));
+  public function found(LostItemPost $post)
+{
+    // Eager load the post's owner with their details and relationships
+    $post->load([
+        'user' => function($query) {
+            $query->select('user:id', 'name', 'email', 'contact'); 
+        },
+        'LostItemImages', 
+        'category'
+    ]);
+
+    // Ensure user exists or provide fallback data
+    if (!$post->user) {
+        $post->user = (object) [
+            'name' => 'Unknown User',
+            'email' => 'No email provided',
+            'contact' => 'No contact info'
+        ];
     }
 
+    return view('posts.found', [
+        'post' => $post,
+        'currentUser' => auth()->user() // Separate current user if needed
+    ]);
+}
 
 
     // Handle Flutterwave callback (server-side verification)

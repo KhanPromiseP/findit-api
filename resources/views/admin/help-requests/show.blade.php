@@ -135,21 +135,21 @@
 
                                     <div class="mt-4 flex flex-wrap gap-2">
                                         {{-- Share on WhatsApp button (opens modal for multiple selections) --}}
-                                        <button @click="showWhatsappShareModal = true; fetchContacts();"
+                                        {{-- <button @click="showWhatsappShareModal = true; fetchContacts();"
                                                 class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring ring-green-300 disabled:opacity-25 transition ease-in-out duration-150">
                                             <i class="fab fa-whatsapp mr-2"></i> Share on WhatsApp (Bulk)
-                                        </button>
+                                        </button> --}}
 
                                         {{-- Email User (opens user's mail client) --}}
                                         <a href="mailto:{{ $helpRequest->user->email }}?subject=Regarding your lost item ({{ urlencode($helpRequest->name) }})&body={{ urlencode("Dear " . $helpRequest->user->name . ",\n\n") }}"
                                            class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-                                            <i class="fas fa-envelope mr-2"></i> Email User
+                                            <i class="fas fa-envelope mr-2"></i> Email Owner
                                         </a>
 
                                         {{-- Announce to All Users (sends email from backend) --}}
                                         <button @click="showEmailToAllUsersModal = true"
                                                 class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
-                                            <i class="fas fa-bullhorn mr-2"></i> Announce to All Users
+                                            <i class="fas fa-bullhorn mr-2"></i> Announce to subscribers
                                         </button>
                                     </div>
                                 </div>

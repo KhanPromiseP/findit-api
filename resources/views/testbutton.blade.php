@@ -7,6 +7,6 @@
 </head>
 <body>
 
-    <a href="/chat/4">Connect</a>
+    <a href="/chat/3">Connect</a>
 </body>
 </html>

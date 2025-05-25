@@ -1,6 +1,14 @@
 {
+  "public/pic/2.jpg": {
+    "file": "assets/2-BS9LvOm-.jpg",
+    "src": "public/pic/2.jpg"
+  },
+  "public/pic/3.jpg": {
+    "file": "assets/3-C5wiN2Eb.jpg",
+    "src": "public/pic/3.jpg"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-BNetjoBA.css",
+    "file": "assets/app-Bt3ajInq.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },

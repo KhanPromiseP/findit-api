@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <div class="mb-6">
-                <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center bg-blue-200 text-blue-600 hover:bg-blue-300 hover:text-blue-800 px-4 py-2 rounded-md transition">
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center bg-blue-200 text-blue-600 hover:bg-blue-300 hover:text-blue-800 px-4 py-2 rounded-md transition">
                     Back to Dashboard
                 </a>
             </div>
@@ -157,7 +157,7 @@
                     </div>
 
                      <a 
-                                href="{{ route('testbutton') }}" 
+                                href="{{ route('chat.show', 2) }}" 
                                 class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-150"
                             >
                                 Chat the Poster
