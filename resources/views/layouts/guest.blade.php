@@ -50,6 +50,7 @@
         </style>
     </head>
     <body class="font-sans antialiased">
+    
         <div class="auth-background">
           
 

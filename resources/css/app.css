@@ -1,6 +1,9 @@
 /* @import './style.css';
 @import './home.css'; */
 
+
+@import './about.css'; 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -116,3 +119,8 @@ body {
     background-color: #ffb300;
     color: #000;
   }
+
+
+
+
+  

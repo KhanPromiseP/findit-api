@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\Payment;
+use App\Models\LostItemPost;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -24,14 +27,22 @@ class PaymentController extends Controller
     /**
      * Display the payment form with Flutterwave key and amount settings.
      */
-    public function showPaymentForm()
+    public function showPaymentForm(LostItemPost $post)
     {
+        $post_id = $post->id;
         $publicKey = config('services.flutterwave.public_key');
         $amount = Setting::where('key', 'payment_amount')->value('value') ?? 0;
         $currency = Setting::where('key', 'payment_currency')->value('value') ?? 'XAF';
         $user = Auth::user();
 
-        return view('payment.form', compact('publicKey', 'amount', 'currency', 'user'));
+        return view('payment.form', compact('post', 'publicKey', 'amount', 'currency', 'user'));
+    }
+
+
+       public function found(LostItemPost $post)
+    {
+        $post->load('user', 'LostItemImages', 'category');
+        return view('posts.found', compact('post'));
     }
 
 
@@ -131,15 +142,15 @@ class PaymentController extends Controller
     }
 
     // Verify transaction with Flutterwave API
-    protected function verifyTransaction(string $transactionId)
-    {
-        $secretKey = config('services.flutterwave.secret_key');
+    // protected function verifyTransaction(string $transactionId)
+    // {
+    //     $secretKey = config('services.flutterwave.secret_key');
 
-        return Http::withHeaders([
-            'Authorization' => 'Bearer ' . $secretKey,
-            'Content-Type' => 'application/json',
-        ])->get("https://api.flutterwave.com/v3/transactions/{$transactionId}/verify");
-    }
+    //     return Http::withHeaders([
+    //         'Authorization' => 'Bearer ' . $secretKey,
+    //         'Content-Type' => 'application/json',
+    //     ])->get("https://api.flutterwave.com/v3/transactions/{$transactionId}/verify");
+    // }
 
     // Extract user ID from transaction reference
     protected function extractUserIdFromTxRef(string $txRef)
@@ -160,16 +171,33 @@ class PaymentController extends Controller
     }
 
     // Success page (frontend)
-    public function paymentSuccess()
-    {
-        if (!session()->has('success')) {
-            return redirect()->route('home');
-        }
+    // public function paymentSuccess()
+    // {
+    //     if (!session()->has('success')) {
+    //         return redirect()->route('home');
+    //     }
 
-        return view('payment.success', [
-            'payment' => session('payment'),
-        ]);
-    }
+    //     return view('payment.success', [
+    //         'payment' => session('payment'),
+    //     ]);
+    // }
+
+    public function paymentSuccess()
+{
+    // Get the latest successful payment for the authenticated user
+    $payment = Payment::where('user_id', auth()->id())
+                     ->where('status', 'successful')
+                     ->latest()
+                     ->first();
+
+    // if (!$payment) {
+    //     return redirect()->route('payment.success')->with('error', 'No successful payment found');
+    // }
+
+    return view('payment.success', [
+        'payment' => $payment
+    ]);
+}
 
 
 
@@ -204,11 +232,57 @@ public function processing(Request $request)
     ]);
 }
 
+
+
+
+
     // Failure page (frontend)
     public function paymentFailure()
     {
         return view('payment.failure', [
             'error' => session('error', 'Unknown payment error'),
         ]);
+    }
+
+
+
+
+
+
+
+     public function show(Payment $payment)
+    {
+        // Ensure the authenticated user owns this transaction
+        if (Auth::id() !== $payment->user_id) {
+            abort(403, 'Unauthorized action.'); // Or redirect with an error message
+        }
+
+        $user = $payment->user; // Assuming a relationship exists between Transaction and User
+                                   // e.g., in Transaction.php: public function user() { return $this->belongsTo(User::class); }
+
+        return view('invoice.show', compact('payment', 'user'));
+    }
+
+    /**
+     * Download the invoice as a PDF.
+     *
+     * @param  \App\Models\Payment  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadInvoice(Payment $payment)
+    {
+        // Ensure the authenticated user owns this transaction
+        if (Auth::id() !== $payment->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $user = $payment->user;
+
+        // Load the view with data
+        $pdf = Pdf::loadView('invoice.pdf', compact('payment', 'user'));
+
+        // You can stream it or download it directly
+        // return $pdf->stream('invoice-' . $transaction->id . '.pdf'); // Opens in browser
+        return $pdf->download('invoice-' . $payment->id . '.pdf'); // Downloads directly
     }
 }

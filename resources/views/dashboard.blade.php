@@ -9,7 +9,7 @@
         <!-- Hero Section -->
         <div class="max-w-7xl mx-auto text-center mb-12 animate-fade-in">
             <h1 class="text-4xl md:text-5xl font-bold text-blue-800 mb-6">Lost Something Valuable?</h1>
-            <p class="text-xl text-blue-600 mb-8">Our community has helped reunite over 10,000 items with their owners this year!</p>
+            <p class="text-xl text-blue-600 mb-8">Our community has helped reunite over 10 items with their owners this year!</p>
             
             <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
                <a href="{{ route('posts.create') }}" class="inline-block">
@@ -42,7 +42,7 @@
                     </div>
                     <div>
                         <p class="text-gray-500">Items Found Today</p>
-                        <p class="text-2xl font-bold text-blue-800">47</p>
+                        <p class="text-2xl font-bold text-blue-800">3</p>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     </div>
                     <div>
                         <p class="text-gray-500">Items Returned</p>
-                        <p class="text-2xl font-bold text-blue-800">10,342</p>
+                        <p class="text-2xl font-bold text-blue-800">12</p>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                     </div>
                     <div>
                         <p class="text-gray-500">Active Users</p>
-                        <p class="text-2xl font-bold text-blue-800">24,589</p>
+                        <p class="text-2xl font-bold text-blue-800">15</p>
                     </div>
                 </div>
             </div>
@@ -461,6 +461,14 @@
                     </div>
                     <h4 class="font-bold text-blue-800 mb-2">Get Matched</h4>
                     <p class="text-gray-600">When someone finds your item, we connect you to arrange return.</p>
+                </div>
+
+                 <div class="text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-blue-800">4</span>
+                    </div>
+                    <h4 class="font-bold text-blue-800 mb-2">Findit Help</h4>
+                    <p class="text-gray-600">Findit team help you found your item if it is not yet on the patform!.</p>
                 </div>
             </div>
         </section>

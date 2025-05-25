@@ -1,0 +1,706 @@
+/* Universal Box-Sizing for consistency */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif; /* A good fallback font */
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f8f8; /* Lighter background for the entire page */
+}
+
+/* ---------------------------------- */
+/* Mini Navigation (Breadcrumbs)      */
+/* ---------------------------------- */
+.mini_nav {
+    width: 100%;
+    min-height: 4rem; /* Adjusted height for better spacing */
+    background-color: rgb(235, 235, 235); /* Lighter grey for softness */
+    display: flex;
+    align-items: center; /* Vertically center items */
+    padding: 0 1.5rem; /* Add horizontal padding */
+}
+
+.mini_nav a {
+    font-size: 1.1rem; /* Slightly smaller for breadcrumbs */
+    font-family: Arial, sans-serif;
+    text-decoration: none;
+    color: rgb(6, 163, 195);
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.mini_nav a:hover {
+    color: #3f51b5; /* Deeper blue on hover */
+}
+
+.mini_nav p {
+    margin-left: 0.5rem;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    color: #555; /* Softer text color */
+}
+
+/* ---------------------------------- */
+/* Banner Section (Hero)              */
+/* ---------------------------------- */
+.banner {
+    padding: 3rem 0; /* Vertical padding for the section */
+    background-color: #ffffff; /* White background for the main content area */
+}
+
+.banner .hero {
+    display: flex;
+    flex-direction: column; /* Default to column for small screens */
+    margin: 0 auto; /* Center the hero content */
+    max-width: 90%; /* Max width for content */
+    gap: 3rem; /* Space between image and info columns */
+    align-items: center; /* Center items for column layout */
+}
+
+.banner .hero .images {
+    display: flex;
+    flex-direction: column; /* Stack images on small screens */
+    width: 100%; /* Full width on small screens */
+    gap: 1rem; /* Space between image columns */
+    align-items: center;
+}
+
+.banner .hero .images .left_image {
+    border-radius: 1rem 1rem 1rem 8rem; /* Softer large radius */
+    min-height: 350px; /* Min height for images */
+    width: 80%; /* Adjusted width */
+    background-size: cover;
+    background-position: center;
+    background-image: url('../../public/pic/3.jpg'); /* Correct path relative to CSS */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.banner .hero .images .left_image:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.banner .hero .images .right_image {
+    display: flex;
+    flex-direction: column;
+    width: 80%; /* Adjusted width */
+    gap: 1rem; /* Space between images */
+}
+
+.banner .hero .images .right_image .img-up,
+.banner .hero .images .right_image .img-down {
+    border-radius: 1rem; /* Uniform border radius */
+    min-height: 180px; /* Min height for smaller images */
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.banner .hero .images .right_image .img-up:hover,
+.banner .hero .images .right_image .img-down:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.banner .hero .images .right_image .img-up {
+    background-image:   url('../../public/pic/2.jpg');
+}
+
+.banner .hero .images .right_image .img-down {
+    background-image: url('../../public/pic/3.jpg'); /* Adjusted to use pic/3.jpg */
+}
+
+/* Remove default image styling if background-image is used */
+.banner .hero .images img {
+    display: none; /* Hide direct <img> tags if using background-image for styling */
+}
+
+.banner .hero .info {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Full width on small screens */
+    text-align: center; /* Center text on small screens */
+}
+
+.banner .hero .info .top {
+    font-size: 2rem; /* Slightly adjusted font size */
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #1a224f; /* Darker, consistent color */
+}
+
+.banner .hero .info .mid {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+.banner .hero .info button {
+    width: 60%; /* Adjust button width */
+    max-width: 250px; /* Max width for button */
+    height: 3.5rem; /* Taller button */
+    border-radius: 2rem; /* More rounded */
+    border: none;
+    background: linear-gradient(to right, #3f51b5, rgb(6, 163, 195));
+    margin: 0 auto; /* Center button */
+    transition: all 0.3s ease;
+}
+
+.banner .hero .info button a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem; /* Slightly larger text */
+    font-family: 'Segoe UI', sans-serif;
+    display: block; /* Make anchor fill button */
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner .hero .info button:hover {
+    cursor: pointer;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    transform: translateY(-2px); /* Slight lift */
+}
+.banner .hero .info button:hover a {
+    color: rgb(6, 163, 195);
+}
+
+/* ---------------------------------- */
+/* Stats Section                      */
+/* ---------------------------------- */
+.banner .stats {
+  
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    justify-content: space-evenly;
+    width: 90%; /* Max width for stats */
+    margin: -5rem auto 6rem; /* Adjust margin to overlap hero and position below */
+    background: linear-gradient(to right, #3f51b5, rgb(6, 163, 195));
+    margin-top: auto;
+    border-radius: 1rem;
+    position: relative; /* For z-index to work */
+    z-index: 10;
+    padding: 2rem 1rem; /* Padding inside the stats box */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Prominent shadow */
+}
+
+.banner .stats .sum-fig {
+    text-align: center;
+    padding: 1rem; /* Padding for each stat figure */
+    flex: 1 1 45%; /* Allow wrapping for 2 columns on smaller screens */
+}
+
+.banner .stats .sum-fig .numb {
+    font-family: sans-serif;
+    font-size: 3rem; /* Slightly smaller for better fit */
+    font-weight: bold;
+    color: white;
+    margin-bottom: 0.5rem; /* Space between number and text */
+}
+
+.banner .stats .sum-fig span {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7); /* Improved contrast */
+    font-size: 1.2rem; /* Adjusted font size */
+    display: block; /* Ensure span takes full line */
+}
+
+/* ---------------------------------- */
+/* Team Section                       */
+/* ---------------------------------- */
+.banner .team {
+    padding: 8rem 1.5rem 3rem; /* Adjusted padding-top to compensate for stats overlap */
+    background-color: #f0f4f8; /* Light blue background for team section */
+}
+
+.banner .team h1 {
+    text-align: center;
+    color: #1a224f; /* Darker, consistent color */
+    font-size: 2.5rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+.banner .team p {
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.1rem;
+    color: #777; /* Softer gray */
+    margin-bottom: 3rem; /* More space before members */
+}
+
+.banner .team .members {
+    margin: 0 auto; /* Center members container */
+    max-width: 90%; /* Max width for content */
+    display: grid; /* Use CSS Grid for team members */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 2rem; /* Space between team members */
+    padding-bottom: 2rem;
+}
+
+.banner .team .members .team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content within team member */
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+.banner .team .members .team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+.banner .team .members .team-member .image-div {
+    height: 150px; /* Fixed height for image div */
+    width: 150px; /* Fixed width for image div */
+    border-radius: 50%; /* Make it a circle */
+    border: 3px solid rgb(6, 163, 195); /* Border around image */
+    overflow: hidden; /* Hide overflow for circular image */
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 1rem;
+    flex-shrink: 0; /* Prevent shrinking on small screens */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Remove this if you're using <img> tags inside .image-div */
+.banner .team .members .team-member .image-div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.banner .team .members .team-member .sm-icons {
+    display: flex;
+    justify-content: center; /* Center icons */
+    margin-top: 0.8rem;
+    margin-bottom: 1rem; /* Space below icons */
+}
+
+.banner .team .members .team-member .sm-icons img {
+    width: 1.5rem; /* Larger icons */
+    height: 1.5rem;
+    margin: 0 0.5rem; /* Space between icons */
+    transition: transform 0.3s ease;
+}
+
+.banner .team .members .team-member .sm-icons img:hover {
+    transform: translateY(-5px); /* More pronounced lift */
+}
+
+.banner .team .members .team-member .m-name {
+    color: #1a224f;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 1.4rem; /* Adjusted font size */
+    margin-top: 0.5rem;
+}
+
+.banner .team .members .team-member .m-role {
+    font-weight: 300;
+    font-size: 1.1rem;
+    color: rgb(130, 130, 130);
+    margin-top: 0.2rem;
+}
+
+/* ---------------------------------- */
+/* CTA Section                        */
+/* ---------------------------------- */
+.banner .cta {
+    width: 90%; /* Max width for CTA */
+    max-width: 1000px; /* Maximum width for larger screens */
+    min-height: 180px; /* Min height */
+    background: linear-gradient(to right, #3f51b5, rgb(6, 163, 195)); /* Use gradient as primary background */
+    background-image: url('../pic/bg.png'); /* Overlays the gradient, ensure visibility */
+    background-position: center;
+    background-size: cover; /* Cover the area */
+    display: flex;
+    flex-direction: column; /* Stack text and button */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    margin: 3rem auto -8rem; /* Adjusted margin for overlap with footer */
+    border-radius: 2rem;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
+    position: relative;
+    z-index: 5;
+    text-align: center; /* Center text within p tags */
+    padding: 2rem; /* Add padding inside CTA */
+}
+
+.banner .cta p {
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    font-size: 1.8rem; /* Larger font size */
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 1.5rem; /* Space between text and button */
+}
+
+.banner .cta p span {
+    font-size: 2.8rem; /* Larger span text */
+    color: #0a0a08; /* Brighter yellow */
+    margin-bottom: 500px;
+}
+
+.banner .cta button {
+    height: 3.5rem;
+    padding: 0 2.5rem; /* Horizontal padding for button */
+    border-radius: 2rem;
+    border: none;
+    background-color: #ffffff; /* White button */
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Button shadow */
+}
+
+.banner .cta button a {
+    text-decoration: none;
+    color: #3f51b5; /* Blue text */
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: block; /* Make anchor fill button */
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner .cta button:hover {
+    background-color: #e0e0e0; /* Light gray on hover */
+    transform: translateY(-3px); /* Slight lift */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+    cursor: pointer;
+}
+.banner .cta button:hover a {
+    color: rgb(6, 163, 195);
+}
+
+/* ---------------------------------- */
+/* Footer (assuming this is part of your specific page footer) */
+/* Ideally, this would be in x-app-layout */
+/* ---------------------------------- */
+footer {
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    background-color: #111a3f;
+    padding: 10rem 1.5rem 3rem; /* Top padding to account for CTA overlap */
+    min-height: 40vh; /* Minimum height for footer */
+    justify-content: space-around;
+    align-items: flex-start; /* Align items to the start */
+    gap: 2rem; /* Gap between footer columns */
+    position: relative; /* For z-index */
+    z-index: 1;
+}
+
+footer .logo_n_socials {
+    flex: 1 1 250px; /* Flexible width, min 250px */
+    text-align: center; /* Center logo and tagline */
+    margin-bottom: 1.5rem; /* Space below for mobile */
+}
+footer .logo_n_socials .app-name {
+    font-size: 3rem; /* Adjusted font size */
+    font-weight: bold;
+    color: blue;
+    font-family: 'Segoe UI', sans-serif;
+}
+footer .logo_n_socials .app-name span {
+    color: rgb(6, 163, 195);
+}
+footer .logo_n_socials .tagline {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    margin-top: -0.5rem; /* Adjusted margin */
+    color: #aaa; /* Lighter color */
+}
+footer .logo_n_socials .smf-icons {
+    display: flex;
+    justify-content: center; /* Center icons */
+    margin-top: 1rem;
+    color: rgb(6, 163, 195);
+}
+footer .logo_n_socials .smf-icons img {
+    height: 1.8rem; /* Slightly larger icons */
+    width: 1.8rem;
+    margin: 0 0.5rem; /* Space between icons */
+    transition: transform 0.3s ease;
+    background-color: rgb(32, 65, 175);
+}
+footer .logo_n_socials .smf-icons img:hover {
+    transform: translateY(-5px);
+    color: rgb(6, 163, 195);
+}
+
+footer .quick-nav,
+footer .help-n-support {
+    flex: 1 1 180px; /* Flexible width for nav columns */
+    margin-top: 0; /* Reset margin */
+    margin-bottom: 1.5rem; /* Space below for mobile */
+    text-align: center; /* Center nav content */
+}
+
+footer .quick-nav p,
+footer .help-n-support p {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.5rem; /* Adjusted font size */
+    color: white;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+footer .quick-nav ul,
+footer .help-n-support ul {
+    list-style-type: none;
+}
+
+footer .quick-nav ul li a,
+footer .help-n-support ul li a {
+    text-decoration: none;
+    color: #a0aec0; /* Lighter blue/gray */
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    display: block; /* Make link block for padding */
+    padding: 0.3rem 0;
+    transition: color 0.3s ease;
+}
+
+footer .quick-nav ul li a:hover,
+footer .help-n-support ul li a:hover {
+    color: rgb(6, 163, 195);
+}
+
+footer .newsletter {
+    flex: 1 1 280px; /* Flexible width for newsletter */
+    background-color: #1a224f;
+    border-radius: 1rem; /* Softer radius */
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 0; /* Reset margin */
+}
+
+footer .newsletter p {
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    font-size: 1.3rem; /* Adjusted font size */
+    font-weight: bold;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+footer .newsletter form {
+    display: flex;
+    justify-content: center; /* Center form elements */
+    width: 100%;
+}
+
+footer .newsletter form input {
+    flex-grow: 1; /* Allow input to grow */
+    padding: 0.8rem 1rem;
+    border-radius: 0.5rem 0 0 0.5rem; /* Softer border radius */
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background-color: #2b335a; /* Darker input background */
+    color: white;
+}
+footer .newsletter form input::placeholder {
+    color: #a0aec0;
+}
+
+
+footer .newsletter form button {
+    padding: 0.8rem 1rem;
+    border-radius: 0 0.5rem 0.5rem 0; /* Softer border radius */
+    background-color: rgb(6, 163, 195); /* Consistent blue */
+    border: none;
+    color: white; /* White text */
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+footer .newsletter form button:hover {
+    background-color: #3f51b5; /* Deeper blue on hover */
+}
+
+/* ---------------------------------- */
+/* Responsive Adjustments             */
+/* ---------------------------------- */
+@media (min-width: 768px) { /* Medium screens and up */
+    .banner .hero {
+        flex-direction: row; /* Two columns on medium screens */
+        align-items: stretch; /* Stretch items to fill height */
+        margin: 3rem auto 5rem; /* Restore original margin from banner */
+    }
+
+    .banner .hero .images {
+        flex-direction: row; /* Side-by-side images */
+        width: 60%;
+        align-items: flex-start; /* Align images to top */
+    }
+
+    .banner .hero .images .left_image {
+        width: 55%; /* Adjust width for better balance */
+        height: 60vh; /* Restore specific height */
+    }
+
+    .banner .hero .images .right_image {
+        width: 40%; /* Adjust width */
+        height: 60vh; /* Match height of left image */
+        justify-content: space-between;
+    }
+    .banner .hero .images .right_image .img-up {
+        border-radius: 1rem 8rem 1rem 1rem;
+        height: calc(60% - 0.5rem); /* Proportional height */
+    }
+    .banner .hero .images .right_image .img-down {
+        height: calc(40% - 0.5rem); /* Proportional height */
+    }
+
+    .banner .hero .info {
+        width: 40%;
+        text-align: left; /* Align text left */
+        margin-left: 2.5rem;
+    }
+
+    .banner .hero .info button {
+        margin: 4px 0 0 6rem; /* Restore original button margin */
+    }
+
+    .banner .stats .sum-fig {
+        flex: 1 1 auto; /* Distribute evenly on larger screens */
+        padding: 1rem 2rem; /* More horizontal padding */
+    }
+
+    footer {
+        padding: 8rem 0; /* Original footer padding */
+    }
+
+    footer .quick-nav,
+    footer .help-n-support {
+        text-align: left; /* Align text left */
+    }
+
+    footer .newsletter {
+        margin: 2rem 0 0; /* Restore original margin */
+    }
+}
+
+@media (max-width: 640px) { /* Extra small screens (mobile) */
+    .mini_nav {
+        padding: 0 1rem; /* Reduce padding */
+    }
+    .mini_nav a {
+        margin: 0; /* Remove specific margin */
+    }
+
+    .banner .hero {
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .banner .hero .images .left_image,
+    .banner .hero .images .right_image {
+        width: 100%; /* Full width on tiny screens */
+    }
+
+    .banner .hero .info .top {
+        font-size: 1.7rem;
+    }
+    .banner .hero .info .mid {
+        font-size: 1rem;
+    }
+    .banner .hero .info button {
+        width: 80%; /* Wider button on small screens */
+    }
+
+    .banner .stats {
+        margin: -4rem auto 2rem; /* Adjust overlap for smaller screens */
+        padding: 1rem;
+    }
+    .banner .stats .sum-fig {
+        flex: 1 1 100%; /* Stack stats vertically on very small screens */
+    }
+
+    .banner .team {
+        padding-top: 6rem;
+    }
+    .banner .team h1 {
+        font-size: 2rem;
+    }
+    .banner .team p {
+        font-size: 0.9rem;
+    }
+    .banner .team .members {
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    .banner .team .members .team-member {
+        width: 90%; /* Adjust team member width */
+        margin: 0 auto; /* Center team members */
+    }
+
+    .banner .cta {
+        width: 95%; /* Wider CTA on small screens */
+        margin: 2rem auto -6rem; /* Adjust overlap */
+        padding: 1.5rem;
+    }
+    .banner .cta p {
+        font-size: 1.2rem;
+    }
+    .banner .cta p span {
+        font-size: 1.8rem;
+    }
+    .banner .cta button {
+        width: 90%; /* Wider button */
+        font-size: 1rem;
+    }
+
+    footer {
+        padding: 7rem 1rem 2rem; /* Adjust footer padding */
+        flex-direction: column; /* Stack footer columns */
+        align-items: center; /* Center items when stacked */
+        text-align: center;
+    }
+    footer .logo_n_socials,
+    footer .quick-nav,
+    footer .help-n-support,
+    footer .newsletter {
+        flex: 1 1 100%; /* Full width for footer sections */
+        margin-bottom: 1rem; /* Space between stacked sections */
+    }
+    footer .newsletter form {
+        flex-direction: column; /* Stack input and button */
+        width: 80%; /* Wider form on mobile */
+        margin: 0 auto;
+    }
+    footer .newsletter form input,
+    footer .newsletter form button {
+        width: 100%;
+        border-radius: 0.5rem; /* Full radius for stacked elements */
+        margin: 0;
+        margin-bottom: 0.5rem; /* Space between input and button */
+    }
+    footer .newsletter form button {
+        margin-top: 0.5rem; /* Space between input and button */
+    }
+}

@@ -1,6 +1,18 @@
 <footer class="buttom-fix mb-2 bg-gray-100 border-t border-gray-200 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+            <div class="logo_n_socials">
+                <h1 class="app-name">Find<span>It</span></h1>
+                <p class="tagline">Helping you reunite with your lost items.</p>
+                <div class="smf-icons">
+                        <img src="{{ asset('icons/facebook.png') }}" alt="facebook">
+                        <img src="{{ asset('icons/instagram.png') }}" alt="instagram">
+                        <img src="{{ asset('icons/linkedin.png') }}" alt="linkedin">
+                        <img src="{{ asset('icons/twitter.png') }}" alt="x">
+                </div> 
+            </div>
+            
             <div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Explore</h3>
                 <ul class="space-y-2 text-sm text-gray-600">
@@ -19,15 +31,7 @@
                     <li><a href="#" class="hover:text-blue-500">Terms of Service</a></li>
                 </ul>
             </div>
-            <div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Connect</h3>
-                <ul class="space-y-2 text-sm text-gray-600">
-                    <li><a href="#" class="hover:text-blue-500">Facebook</a></li>
-                    <li><a href="#" class="hover:text-blue-500">Twitter</a></li>
-                    <li><a href="#" class="hover:text-blue-500">Instagram</a></li>
-                    <li><a href="#" class="hover:text-blue-500">Email</a></li>
-                </ul>
-            </div>
+          
             <div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Newsletter</h3>
                 <p class="text-sm text-gray-600 mb-2">Subscribe to our newsletter to stay updated on new lost items.</p>

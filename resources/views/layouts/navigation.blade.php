@@ -76,9 +76,18 @@
                     </div>
                 </div>
 
+                   
+
                 <!-- Right side: Profile dropdown -->
                 <div class="hidden sm:flex items-center sm:ml-6">
+                 <a class="nav-link-item block py-3 px-3 rounded" href="{{ route('about.show') }}">
+                    About Us
+                    </a>
+                    <a class="nav-link-item block py-3 px-3 rounded" href="{{ route('contact.show') }}">
+                        Contact us
+                    </a>
                     <div class="relative">
+                    @if(Auth::check())
                         <button class="p-1 flex items-center border-0 rounded-full" type="button" id="profileDropdown">
                             <img src="{{ asset('storage/' . Auth::user()->profile_path) ?? 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&background=4F46E5&color=fff' }}" 
                             
@@ -87,10 +96,13 @@
                         </button>
                         <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 py-1 bg-gray-50 rounded-md shadow-lg border-0 z-50">
                             <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{{ route('dashboard') }}">Home Dashboard</a>
-                            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{{ route('profile.edit') }}">Profile</a>
-                            @if(Auth::check() && Auth::user()->is_admin)
+                             @if(Auth::check() && Auth::user()->is_admin)
                             <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
                             @endif
+
+                           
+                            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{{ route('profile.edit') }}">Profile</a>
+                           
                             <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{{ route('posts.mine') }}">My Posts</a>
                             <div class="border-t border-gray-200 mx-4 my-2"></div>
                             <form method="POST" action="{{ route('logout') }}">
@@ -99,6 +111,7 @@
                             </form>
                         </div>
                     </div>
+                    @endif
                 </div>
 
                 <!-- Mobile menu button -->
@@ -136,6 +149,12 @@
                             <i class="bi bi-shield-lock mr-3"></i> Admin Dashboard
                         </a>
                         @endif
+                        <a class="nav-link-item block py-3 px-3 rounded" href="{{ route('about.show') }}">
+                            <i class="bi bi-info-circle mr-3"></i> About Us
+                        </a>
+                        <a class="nav-link-item block py-3 px-3 rounded" href="{{ route('contact.show') }}">
+                            <i class="bi bi-envelope mr-3"></i> Contact Us
+                        </a>
                         <a class="nav-link-item block py-3 px-3 rounded" href="{{ route('profile.edit') }}">
                             <i class="bi bi-person mr-3"></i> Profile
                         </a>
@@ -146,6 +165,7 @@
                 </div>
 
                 <!-- User info and logout at bottom -->
+                @if(Auth::check())
                 <div class="border-t p-4 bg-gray-50">
                     <div class="mb-3">
                         <div class="font-semibold text-gray-800">{{ Auth::user()->name }}</div>
@@ -158,6 +178,7 @@
                         </button>
                     </form>
                 </div>
+                @endif
             </div>
         </div>
     </nav>

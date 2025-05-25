@@ -36,6 +36,8 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
+ 
+
 
     public function mine(Request $request)
 {
@@ -154,6 +156,15 @@ class PostController extends Controller
     public function show(LostItemPost $post)
     {
         return view('posts.show', compact('post'));
+    }
+
+    
+
+     public function found(LostItemPost $post)
+    {
+
+        $post->load('user', 'LostItemImages', 'category');
+        return view('posts.found', compact('post'));
     }
 
 

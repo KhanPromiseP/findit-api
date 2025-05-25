@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\InvoiceController;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
@@ -36,12 +37,19 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
 });
 
+
+Route::view('/contact', 'contact.show')->name('contact.show');
+Route::view('/about', 'about.show')->name('about.show');
+
 Route::get('/posts/mine', [PostController::class, 'mine'])
     ->middleware('auth')
     ->name('posts.mine');
+Route::get('/posts/found', [PaymentController::class, 'found'])->middleware('auth')->name('posts.found');
 
 Route::middleware('auth')->group(function () {
 Route::resource('posts', PostController::class);  //This is a resource route
+
+
 // Route::get('/posts/mine', [PostController::class, 'mine'])->name('posts.mine');
 Route::get('/find/search', [PostController::class, 'find'])->name('find.search');
 Route::get('/find/showsearch/{post}', [PostController::class, 'showsearch'])->name('find.showsearch');
@@ -67,13 +75,31 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
     Route::get('/payment.success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/payment.failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
-    Route::get('/invoice/{invoiceId}/download', [PaymentController::class, 'downloadInvoice'])->name('invoice.download');
+    // Route::get('/invoice/{invoiceId}/download', [PaymentController::class, 'downloadInvoice'])->name('invoice.download');
+    // Route::get('/invoice/download', [PaymentController::class, 'downloadInvoice'])->name('invoice.download');
 
     Route::get('/payment/callback', [PaymentController::class, 'handleCallback'])->name('payment.callback');
     Route::post('/payment/initiate', [PaymentController::class, 'initiatePayment'])->name('payment.initiate');
     Route::get('/payment/processing', [PaymentController::class, 'processing'])->name('payment.processing');
+
+
+    
 });
 
+
+
+
+
+Route::middleware(['auth'])->group(function () {
+    // Show invoice details (e.g., /invoice/123)
+    Route::get('/invoice/show', [InvoiceController::class, 'show'])->name('invoice.show'); // <--- CHANGE WILDCARD AND CONTROLLER PARAMETER
+
+    // Download invoice (e.g., /invoice/123/download)
+    Route::get('/invoice/{payment}/download', [InvoiceController::class, 'download'])->name('invoice.download'); // <--- CHANGE WILDCARD AND CONTROLLER PARAMETER
+
+    // New route for the fake invoice display (this one remains unchanged)
+    Route::get('/invoice/fake-download', [InvoiceController::class, 'fakeDownload'])->name('invoice.fake_download');
+});
 
 
 Route::middleware(['auth'])->group(function () { 

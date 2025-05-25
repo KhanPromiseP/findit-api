@@ -34,4 +34,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Changed from /users-with-phone-numbers to /users-with-contacts
-Route::get('/users-with-contacts', [UserController::class, 'usersWithContacts']);
+// Route::get('/users-with-contacts', [UserController::class, 'usersWithContacts']);
