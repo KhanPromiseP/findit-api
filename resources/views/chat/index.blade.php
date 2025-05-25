@@ -136,6 +136,10 @@
         <div id="chat-box" class="chat-body">
             <!-- Messages will be loaded here -->
         </div>
+        <div id="edit-preview" style="display: none; padding: 8px 15px; background: #ffeeba; font-size: 14px;">
+            Editing: <span id="editing-message-text"></span>
+            <button onclick="cancelEdit()" style="float: right; background: none; border: none; color: red; cursor: pointer;">Cancel</button>
+        </div>
         <div class="chat-footer">
             <input type="text" id="message" placeholder="Type a message..." autocomplete="off" />
             <button id="send-btn">Send</button>
@@ -149,12 +153,16 @@
         const messageInput = document.getElementById('message');
         const sendBtn = document.getElementById('send-btn');
 
+        const editPreview = document.getElementById('edit-preview');
+        const editingMessageText = document.getElementById('editing-message-text');
+        let editingMessageId = null;
+
         function formatTime(timestamp) {
             const date = new Date(timestamp);
             return date.toLocaleTimeString('en-GB', {
                 hour: '2-digit',
                 minute: '2-digit',
-                timeZone: 'UTC',
+                // timeZone: 'UTC',
                 hour12: false
             });
         }
@@ -173,15 +181,17 @@
                     div.classList.add(msg.sender_id === currentUserId ? 'you' : 'them');
 
                     let content = `<div>${msg.body}</div>`;
-                    content += `<span class="timestamp">${formatTime(msg.created_at)}</span>`;
+                    let editedLabel = new Date(msg.updated_at) > new Date(msg.created_at) ? ' (edited)' : '';
+                    content += `<span class="timestamp">${formatTime(msg.updated_at)}${editedLabel}</span>`;
 
                     if (msg.sender_id === currentUserId) {
                         content += `
                             <div class="action-buttons">
-                                <button onclick="editMessage(${msg.id}, '${msg.body}')">Edit</button>
-                                <button onclick="deleteMessage(${msg.id})">Delete</button>
+                                <button onclick="editMessage(${msg.id}, \`${msg.body.replace(/`/g, "\\`")}\`)">Edit</button>
+                                
                             </div>
                         `;
+                        //<button onclick="deleteMessage(${msg.id})">Delete</button>
                     }
 
                     div.innerHTML = content;
@@ -195,29 +205,51 @@
         }
 
         async function sendMessage() {
-            console.log('Send button clicked');
             const text = messageInput.value.trim();
             if (!text) return;
 
-            try {
-                const res = await fetch('/send-message', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        receiver_id: receiverId,
-                        message: text
-                    })
-                });
+            if (editingMessageId) {
+                // Update existing message
+                try {
+                    const res = await fetch(`/update-message/${editingMessageId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({message: text })
+                    });
+                    console.log(editingMessageId);
 
-                if (res.ok) {
-                    messageInput.value = '';
-                    fetchMessages();
+                    if (res.ok) {
+                        cancelEdit();
+                        fetchMessages();
+                    }
+                } catch (err) {
+                    console.error('Error updating message:', err);
                 }
-            } catch (err) {
-                console.error('Error sending message:', err);
+            } else {
+                // Send new message
+                try {
+                    const res = await fetch('/send-message', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            receiver_id: receiverId,
+                            message: text
+                        })
+                    });
+
+                    if (res.ok) {
+                        messageInput.value = '';
+                        fetchMessages();
+                    }
+                } catch (err) {
+                    console.error('Error sending message:', err);
+                }
             }
         }
 
@@ -240,26 +272,18 @@
             }
         }
 
-        async function editMessage(id, oldMessage) {
-            const newMessage = prompt('Edit your message:', oldMessage);
-            if (!newMessage || newMessage.trim() === oldMessage) return;
+        async function editMessage(id, body) {
+            editingMessageId = id;
+            messageInput.value = body;
+            editingMessageText.textContent = body;
+            editPreview.style.display = 'block';
+            messageInput.focus();
+        }
 
-            try {
-                const res = await fetch(`/update-message/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ message: newMessage })
-                });
-
-                if (res.ok) {
-                    fetchMessages();
-                }
-            } catch (err) {
-                console.error('Error updating message:', err);
-            }
+        function cancelEdit() {
+            editingMessageId = null;
+            messageInput.value = '';
+            editPreview.style.display = 'none';
         }
 
         sendBtn.addEventListener('click', sendMessage);

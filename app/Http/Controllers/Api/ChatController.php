@@ -41,17 +41,18 @@ class ChatController extends Controller
 
         return response()->json($messages);
     }
-    public function destroy(Chat $chat) {
+    // public function destroy(Chat $chat) {
 
-    }
-    public function update(Request $request) {
-    $messageId = $request->query("message_id");
+    // }
+    public function update(Request $request, $messageId) {
     $request->validate([
-        'message' => 'required|string|max:1000|not_in:',
+        'message' => 'required|string|max:500|',
     ]);
     try {
         $message = Chat::where('id', $messageId)->where('sender_id', auth::id())->firstOrFail();
-        $message->update(['body' => $request->message]);
+        $message->update([
+        'body' => $request->message,]
+    );
 
         return response()->json(['success' => true]);
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

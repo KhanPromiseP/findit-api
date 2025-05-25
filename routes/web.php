@@ -120,8 +120,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat/{user}', [ChatController::class, 'show']);
     Route::get('/fetch-messages', [ChatController::class, 'fetch']);
     Route::post('/send-message', [ChatController::class, 'send']);
-    Route::delete('/delete-message', [ChatController::class, 'destroy']);
-    Route::put('/edit-message', [ChatController::class, 'update']);
+    // Route::delete('/delete-message', [ChatController::class, 'destroy']);
+    Route::put('/update-message/{messageId}', [ChatController::class, 'update']);
 });
 Route::view('/chat','testbutton')->middleware("auth");
 
