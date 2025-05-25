@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\FindController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\AdminHelpRequestController;
+use App\Http\Controllers\Api\ChatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -114,6 +115,15 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::delete('/found-items/{foundItem}', [AdminController::class, 'destroyFoundItem'])->name('admin.found-items.destroy');
 });
 
+//chat Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/{user}', [ChatController::class, 'show']);
+    Route::get('/fetch-messages', [ChatController::class, 'fetch']);
+    Route::post('/send-message', [ChatController::class, 'send']);
+    Route::delete('/delete-message', [ChatController::class, 'destroy']);
+    Route::put('/edit-message', [ChatController::class, 'update']);
+});
+Route::view('/chat','testbutton')->middleware("auth");
 
 
 // Admin routes
