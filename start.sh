@@ -1,13 +1,34 @@
+
+
 #!/bin/bash
+set -e
 
-# Wait for DB to be ready
-echo "Waiting for the database..."
-sleep 10
+# Wait for database to be ready (more robust version)
+echo "Waiting for database..."
+max_retries=10
+count=0
 
-# Run migrations and seeds
-php artisan migrate --force
-php artisan db:seed --force
+while ! php artisan db:monitor >/dev/null 2>&1; do
+  count=$((count+1))
+  if [ $count -ge $max_retries ]; then
+    echo "Database connection failed after $max_retries attempts"
+    exit 1
+  fi
+  echo "Retry $count/$max_retries..."
+  sleep 5
+done
 
-# Start Laravel server
-php artisan serve --host=0.0.0.0 --port=8000
+# Run migrations and seeds (only in production)
+if [ "$APP_ENV" = "production" ]; then
+  php artisan migrate --force
+  php artisan db:seed --force
+fi
 
+# Clear and cache configurations
+php artisan config:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Start PHP-FPM (instead of artisan serve for production)
+exec php-fpm

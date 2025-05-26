@@ -19,14 +19,14 @@
                     <li><a href="{{ route('find.search') }}" class="hover:text-blue-500">Find Lost Items</a></li>
                     <li><a href="{{ route('posts.create') }}" class="hover:text-blue-500">Report a Lost Item</a></li>
                     <li><a href="{{ route('dashboard') }}" class="hover:text-blue-500">Dashboard</a></li>
-                    <li><a href="#" class="hover:text-blue-500">Categories</a></li>
+                    <li><a href="{{ route('profile.edit') }}" class="hover:text-blue-500">Profile</a></li>
                 </ul>
             </div>
             <div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Information</h3>
                 <ul class="space-y-2 text-sm text-gray-600">
-                    <li><a href="#" class="hover:text-blue-500">About Us</a></li>
-                    <li><a href="#" class="hover:text-blue-500">Contact Us</a></li>
+                    <li><a href="{{ route('about.show') }}" class="hover:text-blue-500">About Us</a></li>
+                    <li><a href="{{ route('contact.show') }}" class="hover:text-blue-500">Contact Us</a></li>
                     <li><a href="#" class="hover:text-blue-500">Privacy Policy</a></li>
                     <li><a href="#" class="hover:text-blue-500">Terms of Service</a></li>
                 </ul>

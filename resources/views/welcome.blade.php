@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Font Awesome for better toggle icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #3f51b5;
@@ -50,6 +52,7 @@
             margin: 0 10px;
             position: relative;
             transition: all 0.3s ease;
+            padding: 8px 15px !important;
         }
         
         .nav-link::after {
@@ -75,6 +78,19 @@
             color: #FF6347;
         }
         
+        /* Custom toggle button */
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            font-size: 1.5rem;
+            color: white !important;
+            background: transparent !important;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none !important;
+        }
+        
         /* Hero Section */
         .hero-section {
             min-height: 100vh;
@@ -91,12 +107,12 @@
         }
         
         .app-name {
-            font-size: 5rem;
+            font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 800;
             background: linear-gradient(to right, white, var(--secondary-color));
             -webkit-background-clip: text;
             background-clip: text;
-            color: transparent;
+            color: blue;
             margin-bottom: 1rem;
             line-height: 1;
         }
@@ -106,13 +122,13 @@
         }
         
         .tagline {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 3vw, 1.5rem);
             margin-bottom: 2rem;
             opacity: 0.9;
         }
         
         .description {
-            font-size: 1.2rem;
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
             max-width: 600px;
             margin: 0 auto 3rem;
             line-height: 1.6;
@@ -125,6 +141,7 @@
             margin: 0 10px;
             transition: all 0.3s ease;
             border: 2px solid white;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
         .btn-login {
@@ -164,7 +181,7 @@
         
         .phone-mockup {
             position: absolute;
-            width: 250px;
+            width: clamp(150px, 25vw, 250px);
             right: 10%;
             top: 50%;
             transform: translateY(-50%);
@@ -173,7 +190,7 @@
         
         .laptop-mockup {
             position: absolute;
-            width: 600px;
+            width: clamp(300px, 50vw, 600px);
             left: 10%;
             top: 50%;
             transform: translateY(-40%);
@@ -239,12 +256,10 @@
         @media (max-width: 1200px) {
             .phone-mockup {
                 right: 5%;
-                width: 200px;
             }
             
             .laptop-mockup {
                 left: 5%;
-                width: 500px;
             }
         }
         
@@ -253,58 +268,62 @@
                 opacity: 0.3;
             }
             
-            .app-name {
-                font-size: 4rem;
+            .navbar-collapse {
+                background: rgba(0, 0, 0, 0.9);
+                padding: 20px;
+                border-radius: 10px;
+                margin-top: 10px;
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-item {
+                margin: 5px 0;
+            }
+            
+            .nav-link {
+                display: flex
+                margin: 0;
+                padding: 10px 0 !important;
+                display: inline-block;
+            }
+            
+            .nav-link::after {
+                bottom: 5px;
             }
         }
         
         @media (max-width: 768px) {
-            .app-name {
-                font-size: 3rem;
-            }
-            
-            .tagline {
-                font-size: 1.2rem;
-            }
-            
-            .description {
-                font-size: 1rem;
-            }
-            
-            .btn-hero {
-                padding: 10px 20px;
-                margin-bottom: 10px;
-            }
-            
             .navbar {
                 padding: 10px 15px;
             }
             
             .navbar-brand {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-hero {
+                width: 80%;
+                max-width: 250px;
+                margin: 5px auto;
             }
         }
         
         @media (max-width: 576px) {
             .hero-section {
-                padding-top: 60px;
-            }
-            
-            .app-name {
-                font-size: 2.5rem;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .btn-hero {
-                width: 80%;
-                margin: 5px auto;
+                padding-top: 70px;
             }
             
             .device-mockups {
                 display: none;
+            }
+            
+            .description {
+                padding: 0 15px;
             }
         }
     </style>
@@ -317,11 +336,10 @@
                 Find<span>It</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                  
                     <li class="nav-item">
                         <a class="nav-link login" href="{{ route('login') }}">Login</a>
                     </li>
@@ -367,7 +385,7 @@
                     </p>
                     
                     <div class="button-group d-flex justify-content-center animate__animated animate__fadeInUp animate__delay-2s">
-                        <a href="{{ route('login') }}" class="btn btn-hero btn-login me-2">Login</a>
+                        <a href="{{ route('login') }}" class="btn btn-hero btn-login">Login</a>
                         <a href="{{ route('register') }}" class="btn btn-hero btn-signup">Sign Up</a>
                     </div>
                 </div>
@@ -375,8 +393,8 @@
         </div>
     </section>
 
-   
-    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -388,38 +406,17 @@
             }
         });
         
-        // Animate elements on scroll
-        document.addEventListener('DOMContentLoaded', function() {
-            // GSAP animations for devices
-            gsap.from(".phone-mockup", {
-                duration: 1.5,
-                x: 100,
-                opacity: 0,
-                delay: 0.5,
-                ease: "power3.out"
+        // Close mobile menu when clicking a link
+        const navLinks = document.querySelectorAll('.nav-link');
+        const menuToggle = document.getElementById('navbarNav');
+        const bsCollapse = new bootstrap.Collapse(menuToggle, {toggle: false});
+        
+        navLinks.forEach((navLink) => {
+            navLink.addEventListener('click', () => {
+                if (window.innerWidth < 992) {
+                    bsCollapse.hide();
+                }
             });
-            
-            gsap.from(".laptop-mockup", {
-                duration: 1.5,
-                x: -100,
-                opacity: 0,
-                delay: 0.8,
-                ease: "power3.out"
-            });
-            
-            // Floating animation for devices
-            function floatAnimation(element, duration, yDistance) {
-                gsap.to(element, {
-                    duration: duration,
-                    y: yDistance,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
-            }
-            
-            floatAnimation(".phone-mockup", 6, 20);
-            floatAnimation(".laptop-mockup", 8, 15);
         });
     </script>
 </body>

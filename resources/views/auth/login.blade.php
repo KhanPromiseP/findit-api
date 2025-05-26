@@ -1,6 +1,11 @@
 <x-guest-layout>
+
+
     <div class="">
-        <div class="bg-blue-100 ">
+
+
+   
+        <div class="body ">
             <!-- Logo Container -->
            <div class="flex justify-center mb-8">
                 <div class="mt-8 bg-white p-3 rounded-full shadow-lg border-4 border-blue-100">
@@ -12,7 +17,7 @@
             <div class="">
                 <!-- Card Header -->
                 <div class="">
-                    <h2 class="text-center text-4xl font-bold text-blue">Welcome Back</h2>
+                    <h2 class="text-center text-4xl font-bold text-blue-900 ">Welcome Back</h2>
                     <p class="mb-4 text-center text-blue-600 text-sm mt-1">Sign in to access your account</p>
                 </div>
 

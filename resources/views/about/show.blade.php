@@ -23,12 +23,13 @@
                     <div class="img-down"> <p>.</p></div>
                 </div>
             </div>  
-            <div class="info">
+            <div class=" mb-5 flex py-6 info">
                 <p class="top">We are the top Listing website for lost and found items where 1K+ users trust us.</p>
                 <p class="mid">we curate potential reunions,holding echoes of past moments until they can 
                 resonate with their rightful owners once more.</p>
-                <button><a href="{{ route('contact.show') }}">Contact Us</a></button> {{-- Use Laravel route --}} 
-                <button  class="flex py-6"><a href="{{ route('dashboard') }}">Dashboard</a></button> {{-- Use Laravel route --}}
+                <div class="mb-3" ><button > <a href="{{ route('contact.show') }}">Contact Us</a></button>  </div>
+                
+                <button ><a  class="mt-3 flex py-6" href="{{ route('dashboard') }}">Dashboard</a></button> 
 
             </div> 
         </div>

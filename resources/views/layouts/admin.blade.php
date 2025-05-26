@@ -102,6 +102,8 @@
             background-color: rgba(49, 46, 129, 0.9);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+
+        
     </style>
 </head>
 <body class="font-sans antialiased">
@@ -114,8 +116,7 @@
             <nav class="flex-1 overflow-y-auto mb-8">
                 <ul class="list-none p-0">
                     <li class="mb-3">
-                        <a href="{{ route('admin.dashboard') }}"
-                           class="{{ request()->routeIs('admin.dashboard') ? 'sidebar-link-active' : 'hover:bg-indigo-700' }} flex items-center py-2 px-4 rounded-md transition duration-300">
+                        <a href="{{ route('admin.dashboard') }}"class="{{ request()->routeIs('admin.dashboard') ? 'sidebar-link-active' : 'hover:bg-indigo-700' }} flex items-center py-2 px-4 rounded-md transition duration-300">
                             <i class="bi bi-speedometer2 mr-3 text-yellow-400"></i>
                             <span class="text-sm font-medium">Home Dashboard</span>
                         </a>
@@ -217,11 +218,11 @@
                 <div class="px-4 py-3 sm:px-6 lg:px-8 flex justify-between items-center">
                     <div class="flex items-center">
                         <button id="sidebar-toggle" class="text-gray-500 focus:outline-none mr-4 md:hidden">
-                            
-                        </button>
+    <i class="bi bi-list text-2xl"></i> <!-- Hamburger menu icon -->
+</button>
                         <a href="{{ route('dashboard') }}" class="flex items-center text-indigo-700 font-semibold text-lg">
                             
-                            <span>Home Dashboard</span>
+                            <span>FindIt</span>
                         </a>
                     </div>
 

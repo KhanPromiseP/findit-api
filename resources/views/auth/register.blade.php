@@ -1,30 +1,50 @@
 <x-guest-layout>
-    <div class="">
-        <!-- Logo Container -->
-        <!-- <div class="flex justify-center mb-8">
-            <div class="bg-white p-3 rounded-full shadow-lg border-4 border-blue-100">
-                <img src="{{ asset('images/logo.png') }}" alt="FindIt Logo" class="h-16 w-16">
-            </div>
-           
-        </div> -->
-
+    <style>
+        :root {
+            --primary-color: #3f51b5;
+            --secondary-color: #06a3c3;
+            --accent-color: #ff6b6b;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Ensure input text is black */
+        input, input:focus, input::placeholder {
+            color: #000 !important;
+        }
+        
+        /* Style for file input to match other fields */
+        input[type="file"]::file-selector-button {
+            padding: 0.5rem;
+            background: #f0f0f0;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+        }
+    </style>
+    
+    <div class="body">
         <!-- Card Container -->
-        <div class="">
+        <div class="body">
             <!-- Card Header -->
-             <div class="bg-blue-100 py-1 px-6">
-                <h2 class="text-center text-4xl font-bold text-blue">Create Account</h2>
+            <div class="bg-blue-100 py-1 px-6">
+                <h2 class="text-center text-4xl font-bold text-blue-900">Create Account</h2>
                 <p class="text-center text-blue-900 text-sm mt-2">Join FindIt to report and find lost items</p>
             </div>
 
             <!-- Card Body -->
-            <div class="px-4">
+            <div class="card-background px-4">
                 <form class="space-y-5" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-
                     @csrf
 
                     <!-- Name Field -->
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 ">Full Name</label>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -32,7 +52,7 @@
                                 </svg>
                             </div>
                             <input id="name" name="name" type="text" required autocomplete="name" autofocus
-                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+                                   class="pl-10 w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200 text-black-300"
                                    placeholder="Your full name"
                                    value="{{ old('name') }}">
                         </div>
@@ -49,7 +69,7 @@
                                 </svg>
                             </div>
                             <input id="email" name="email" type="email" required autocomplete="email"
-                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200 text-black"
                                    placeholder="your@email.com"
                                    value="{{ old('email') }}">
                         </div>
@@ -66,7 +86,7 @@
                                 </svg>
                             </div>
                             <input id="password" name="password" type="password" required autocomplete="new-password"
-                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200 text-black"
                                    placeholder="••••••••">
                         </div>
                         <x-input-error :messages="$errors->get('password')" class="mt-1 text-sm text-red-600" />
@@ -82,7 +102,7 @@
                                 </svg>
                             </div>
                             <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
-                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200 text-black"
                                    placeholder="••••••••">
                         </div>
                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1 text-sm text-red-600" />
@@ -98,7 +118,7 @@
                                 </svg>
                             </div>
                             <input id="id_number" name="id_number" type="text" required
-                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200 text-black"
                                    placeholder="Your ID number"
                                    value="{{ old('id_number') }}">
                         </div>
@@ -115,21 +135,22 @@
                                 </svg>
                             </div>
                             <input id="contact" name="contact" type="text" required
-                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+                                   class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200 text-black"
                                    placeholder="Your phone number"
                                    value="{{ old('contact') }}">
                         </div>
                         <x-input-error :messages="$errors->get('contact')" class="mt-1 text-sm text-red-600" />
                     </div>
+                    
                     <!-- Profile Picture Upload Field -->
                     <div>
                         <label for="profile_picture" class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
                         <div class="relative">
                             <input id="profile_picture" name="profile_picture" type="file"
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200">
+                                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200 text-black">
                         </div>
                         <x-input-error :messages="$errors->get('profile_picture')" class="mt-1 text-sm text-red-600" />
-                        <p class="text-sm text-gray">optional (can set on your profile page after)</p>
+                        <p class="text-sm text-gray-500">optional (can set on your profile page after)</p>
                     </div>
 
                     <!-- Submit Button -->

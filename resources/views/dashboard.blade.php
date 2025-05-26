@@ -438,7 +438,7 @@
         <!-- How It Works -->
         <section class="max-w-7xl mx-auto mb-16">
             <h3 class="text-2xl font-bold text-blue-800 mb-8 text-center">How FindIt Works</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="text-center">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="text-2xl font-bold text-blue-800">1</span>
