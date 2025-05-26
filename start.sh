@@ -1,7 +1,8 @@
 
 
 #!/bin/bash
-set -e
+php-fpm -D
+nginx -g 'daemon off;'
 
 # Wait for database to be ready (more robust version)
 echo "Waiting for database..."

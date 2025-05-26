@@ -31,23 +31,15 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction \
     && composer dump-autoload --optimize \
     && rm -rf /root/.composer/cache
 
-
-    # Nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-EXPOSE 80
-
-# Start both Nginx and PHP-FPM
-CMD bash -c "php-fpm -D && nginx -g 'daemon off;'"
-
+# Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Application setup
 RUN php artisan storage:link \
-    && php artisan key:generate \
     && php artisan config:clear \
     && php artisan config:cache \
     && php artisan route:cache \
@@ -57,10 +49,11 @@ RUN php artisan storage:link \
 HEALTHCHECK --interval=30s --timeout=3s \
     CMD curl -f http://localhost/health-check || exit 1
 
-# Copy and set up entrypoint
+EXPOSE 80
+
+# Start both Nginx and PHP-FPM
+CMD bash -c "php-fpm -D && nginx -g 'daemon off;'"
+
 COPY start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
-
-EXPOSE 8000
-
 CMD ["/usr/local/bin/start.sh"]
