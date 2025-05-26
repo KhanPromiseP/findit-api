@@ -35,8 +35,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction \
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY /full/path/to/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Application setup
 RUN php artisan storage:link \
