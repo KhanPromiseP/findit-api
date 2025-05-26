@@ -1,9 +1,9 @@
 FROM php:8.2-fpm
 
-# Install system dependencies and Node.js
+# Install system dependencies, Node.js, and Nginx
 RUN apt-get update && apt-get install -y \
     git curl zip unzip libonig-dev libxml2-dev libzip-dev libpq-dev \
-    gnupg2 \
+    gnupg2 nginx \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && docker-php-ext-install pdo pdo_pgsql mbstring zip exif pcntl \
@@ -31,9 +31,19 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction \
     && composer dump-autoload --optimize \
     && rm -rf /root/.composer/cache
 
+
+    # Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
+EXPOSE 80
+
+# Start both Nginx and PHP-FPM
+CMD bash -c "php-fpm -D && nginx -g 'daemon off;'"
+
 
 # Application setup
 RUN php artisan storage:link \
