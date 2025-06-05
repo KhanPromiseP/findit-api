@@ -58,7 +58,7 @@
             <div class="members">
                 <div class="team-member">
                     <div class="image-div">
-                        <img src="{{ asset('pic/3.jpg') }}" alt="image">
+                        <img src="{{ asset('we/favor.jpeg') }}" alt="image">
 
                         </div>
                     <div class="sm-icons">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="team-member">
                     <div class="image-div">
-                        <img src="{{ asset('pic/3.jpg') }}" alt="image">
+                        <img src="{{ asset('we/harisson.jpeg') }}" alt="image">
                         </div>
                     <div class="sm-icons">
                        <img src="{{ asset('icons/fby.png') }}" alt="facebook">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="team-member">
                     <div class="image-div">
-                        <img src="{{ asset('pic/3.jpg') }}" alt="image">
+                        <img src="{{ asset('we/peter.jpeg') }}" alt="image">
                     </div>
                     <div class="sm-icons">
                        <img src="{{ asset('icons/fby.png') }}" alt="facebook">
@@ -98,7 +98,7 @@
                 </div>
                 <div class="team-member">
                     <div class="image-div">.
-                      <img src="{{ asset('pic/3.jpg') }}" alt="image">
+                      <img src="{{ asset('we/promise.jpeg') }}" alt="image">
                     </div>
                     <div class="sm-icons">
                        <img src="{{ asset('icons/fby.png') }}" alt="facebook">
