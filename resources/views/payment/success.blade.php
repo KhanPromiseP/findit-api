@@ -29,7 +29,7 @@
                         </div>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <h4 class="font-medium text-gray-500 mb-2">Amount Paid</h4>
-                            <p class="font-semibold text-gray-900">XAF 500</p>
+                            <p class="font-semibold text-gray-900"><p class="font-semibold text-gray-900">XAF 500</p></p>
                         </div>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <h4 class="font-medium text-gray-500 mb-2">Date & Time</h4>
@@ -39,7 +39,7 @@
                         </div>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <h4 class="font-medium text-gray-500 mb-2">Payment Method</h4>
-                            <p class="font-semibold text-gray-900">{{ $payment->payment_method ?? 'Mobile money' }}</p>
+                            <p class="font-semibold text-gray-900">{{ $payment->payment_method ?? 'N/A' }}</p>
                         </div>
                     </div>
                     {{-- @else
@@ -47,16 +47,16 @@
                     @endif --}}
 
                     <div class="flex flex-col sm:flex-row gap-3 pt-4">
-                        {{-- @if(isset($payment) && $payment) --}}
+                        @if(isset($payment) && $payment)
                         {{-- Link to the actual invoice download with the payment ID --}}
-                        <a href="{{ route('invoice.download', '123')}}"
+                        <a href="{{ route('invoice.download', $payment->id)}}"
                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-md transition duration-300 text-center font-medium flex items-center justify-center space-x-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             <span>Download Receipt</span>
                         </a>
-                        {{-- @endif --}}
+                        @endif
 
                       {{-- The @foreach block seems out of place here. This page is usually for ONE successful payment.
                              If you intend to show a list of *all* payments, this HTML would go on a separate "My Payments" page.

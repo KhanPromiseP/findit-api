@@ -97,202 +97,202 @@
             <div class="slider-container relative">
                 <div class="slider flex gap-6 overflow-x-auto py-4 px-2 scrollbar-hide" id="slider">
                     <!-- Slide Items - Increased to 20 items -->
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/2.jpg" alt="Item 1" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/1.jpg" alt="Item 1" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Black Wallet</p>
+                            <p class="font-semibold text-blue-800">Radio</p>
                             <p class="text-sm text-gray-500">Found 2 hours ago</p>
                         </div>
                     </div>
                     
                     <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/3.jpg" alt="Item 2" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/2.jpg" alt="Item 2" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Gold iPhone</p>
+                            <p class="font-semibold text-blue-800">Head-set</p>
                             <p class="text-sm text-gray-500">Found yesterday</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="documents">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/4.jpg" alt="Item 3" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/3.jpg" alt="Item 3" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">ID Card</p>
+                            <p class="font-semibold text-blue-800">Water buttle</p>
                             <p class="text-sm text-gray-500">Found 3 days ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="pets">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/5.jpg" alt="Item 4" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/21.jpg" alt="Item 4" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Cat</p>
+                            <p class="font-semibold text-blue-800">Radio</p>
                             <p class="text-sm text-gray-500">Found today</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="pets">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/6.jpg" alt="Item 5" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/5.jpg" alt="Item 5" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Parrot</p>
+                            <p class="font-semibold text-blue-800">Key Holder</p>
                             <p class="text-sm text-gray-500">Found yesterday</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="pets">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/7.jpg" alt="Item 6" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/6.jpg" alt="Item 6" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Dog</p>
+                            <p class="font-semibold text-blue-800">Iphone</p>
                             <p class="text-sm text-gray-500">Found 5 days ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="jewelry">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/15.jpg" alt="Item 7" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/7.jpg" alt="Item 7" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Radio</p>
+                            <p class="font-semibold text-blue-800">Ear ring</p>
                             <p class="text-sm text-gray-500">Found 1 week ago</p>
                         </div>
                     </div>
                     
                     <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/16.jpg" alt="Item 8" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/8.jpg" alt="Item 8" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">HD Screen</p>
+                            <p class="font-semibold text-blue-800">camera</p>
                             <p class="text-sm text-gray-500">Found 2 days ago</p>
                         </div>
                     </div>
                     
                     <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/12.jpg" alt="Item 9" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/9.jpg" alt="Item 9" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Blue Purse</p>
+                            <p class="font-semibold text-blue-800">hand bag</p>
                             <p class="text-sm text-gray-500">Found yesterday</p>
                         </div>
                     </div>
                     
                     <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/13.jpg" alt="Item 10" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/10.jpg" alt="Item 10" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Keys</p>
+                            <p class="font-semibold text-blue-800">Eye glass</p>
                             <p class="text-sm text-gray-500">Found today</p>
                         </div>
                     </div>
                     
                     <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/14.jpg" alt="Item 11" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/11.jpg" alt="Item 11" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Key Holder</p>
+                            <p class="font-semibold text-blue-800">umbreller</p>
                             <p class="text-sm text-gray-500">Found 3 days ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="jewelry">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accesories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/17.jpg" alt="Item 12" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/12.jpg" alt="Item 12" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Ear rings</p>
+                            <p class="font-semibold text-blue-800">Purse</p>
                             <p class="text-sm text-gray-500">Found 4 days ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="jewelry">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="documents">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/18.jpg" alt="Item 13" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/13.jpg" alt="Item 13" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Golden ring</p>
+                            <p class="font-semibold text-blue-800">Passport</p>
                             <p class="text-sm text-gray-500">Found 1 day ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="documents">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/9.jpg" alt="Item 14" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/14.jpg" alt="Item 14" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Receipt</p>
+                            <p class="font-semibold text-blue-800">camera</p>
                             <p class="text-sm text-gray-500">Found 2 days ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="documents">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/10.jpg" alt="Item 15" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/15.jpg" alt="Item 15" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Contract</p>
+                            <p class="font-semibold text-blue-800">nokia phone</p>
                             <p class="text-sm text-gray-500">Found 1 week ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="documents">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/11.jpg" alt="Item 16" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/16.jpg" alt="Item 16" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">ID Card</p>
+                            <p class="font-semibold text-blue-800">laptop</p>
                             <p class="text-sm text-gray-500">Found today</p>
                         </div>
                     </div>
                     
                     <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="pets">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/8.jpg" alt="Item 17" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/17.jpg" alt="Item 17" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Cat</p>
+                            <p class="font-semibold text-blue-800">Cap</p>
                             <p class="text-sm text-gray-500">Found 3 days ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="electronics">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/19.jpg" alt="Item 18" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/18.jpg" alt="Item 18" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Headphones</p>
+                            <p class="font-semibold text-blue-800">Bag</p>
                             <p class="text-sm text-gray-500">Found yesterday</p>
                         </div>
                     </div>
                     
                     <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/20.jpg" alt="Item 19" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/19.jpg" alt="Item 19" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Watch</p>
+                            <p class="font-semibold text-blue-800">purse</p>
                             <p class="text-sm text-gray-500">Found 4 days ago</p>
                         </div>
                     </div>
                     
-                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="documents">
+                    <div class="slide min-w-[250px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-category="accessories">
                         <div class="h-40 bg-blue-100 flex items-center justify-center">
-                            <img src="pic/21.jpg" alt="Item 20" class="max-h-full max-w-full object-contain" />
+                            <img src="pic/20.jpg" alt="Item 20" class="max-h-full max-w-full object-contain" />
                         </div>
                         <div class="p-4">
-                            <p class="font-semibold text-blue-800">Passport</p>
+                            <p class="font-semibold text-blue-800">shoe</p>
                             <p class="text-sm text-gray-500">Found today</p>
                         </div>
                     </div>

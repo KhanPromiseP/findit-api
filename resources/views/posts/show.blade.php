@@ -240,5 +240,5 @@
                     if (e.key === 'ArrowLeft') fullscreenPrevImage();
                 }
             });
-    </script>
+    </script>2
 </x-app-layout>

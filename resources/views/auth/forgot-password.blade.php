@@ -8,15 +8,6 @@
             --light-gray: #f7fafc;
         }
 
-        .guest-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 2rem;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
 
         .auth-card {
             background: rgba(255, 255, 255, 0.95);

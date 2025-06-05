@@ -85,6 +85,7 @@ class FindController extends Controller
                 $helpRequest->images()->create(['image_path' => $path]);
             }
         }
+        $helpRequestsCount = HelpRequest::count();
 
         return response()->json([
             'success' => true,
